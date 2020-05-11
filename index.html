@@ -8,6 +8,7 @@
 
     <title>Paul Calnan's Blog</title>
     <link rel="stylesheet" href="./theme/css/main.css">
+    <link rel="stylesheet" href="./theme/css/xcode.css">
 
   </head>
 
@@ -30,6 +31,65 @@
       </div>
 
 
+<div class="post">
+  <div class="postTitle">
+    <a href="/archives/2020/5/git-revision-info-in-app.html">Git Revision Info in App</a>
+  </div>
+  <div class="date">Published May 10, 2020</div>
+  <p>I'm working on a side project that has required some on-device troubleshooting. I find myself loading a build on my phone and using it for several days. There's been a lot of trial-and-error debugging in this project, so I often run code from an experimental branch for extended periods of time. It's easy to lose track of what source configuration I have loaded on my phone at any given time.</p>
+<p>I wanted to get a way to get the current Git revision and branch into the app. I figured a good start would be the following:</p>
+<ul>
+<li>The branch name (using <code>git rev-parse --abbrev-ref HEAD</code>)</li>
+<li>The abbreviated hash of the current commit (using <code>git rev-parse --short HEAD</code>)</li>
+<li>Whether the working copy was clean or not. I got this by checking the output of <code>git status -s</code>. If the working copy is clean (i.e., no untracked files and no changes to tracked files), that command prints nothing. If the working copy is dirty, the command prints something.</li>
+</ul>
+<p>I wanted to get this information into each build, not just release builds. Getting this information from a shell script into a build is tricky. One of the problems is that you can't modify the working copy. Doing so would change the "is clean" flag. The build would always show dirty and a commit would be needed to clean it, changing the commit hash.</p>
+<p>The approach I settled on was to write an untracked Swift file as part of the build process.</p>
+<p>First, add <code>generate-git-revision.sh</code> (see below) to your project's <code>bin</code> directory (or wherever you keep your project's scripts).</p>
+<script src="https://gist.github.com/pwc3/bfc1144d89275e980c1a6b6ad29985a4.js"></script>
+
+<p>Next, in Xcode add a new <em>Run Script</em> build phase at the top of the list of Build Phases (directly under <em>Dependencies</em>). Call the new build phase <em>Generate GitRevision.swift</em>. Make the body of the build phase script:</p>
+<div class="highlight"><pre><span></span><code><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_DIR</span><span class="si">}</span><span class="s2">/path/to/generate-git-revision.sh&quot;</span> &gt; <span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_DIR</span><span class="si">}</span><span class="s2">/path/to/GitRevision.swift&quot;</span>
+</code></pre></div>
+
+
+<p>Build the project. This causes the script to run and generate <code>GitRevision.swift</code>.</p>
+<p>Now, add the new <code>GitRevision.swift</code> file to the project. Also add <code>GitRevision.swift</code> to the project's <code>.gitignore</code> file.</p>
+<p>That's it.  The generated <code>GitRevision.swift</code> file will look something like this:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">//</span>
+<span class="c1">//  GitRevision.swift</span>
+<span class="c1">//</span>
+<span class="c1">//  This file was automatically generated. Do not edit manually. It will be overwritten on every build.</span>
+<span class="c1">//</span>
+<span class="c1">//  IMPORTANT: This file must be added to .gitignore or it will dirty the working tree every time there is a build.</span>
+<span class="c1">//</span>
+
+<span class="c1">/// Information about the current Git revision.</span>
+<span class="kd">struct</span> <span class="nc">GitRevision</span> <span class="p">{</span>
+
+    <span class="c1">/// The name of the current branch.</span>
+    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">branch</span> <span class="p">=</span> <span class="s">&quot;development&quot;</span>
+
+    <span class="c1">/// The abbreviated hash of the current commit.</span>
+    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">commit</span> <span class="p">=</span> <span class="s">&quot;3c747d5&quot;</span>
+
+    <span class="c1">/// Whether the working tree is clean. If false, indicates that there are uncommitted or untracked files in the working tree.</span>
+    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">clean</span> <span class="p">=</span> <span class="kc">false</span>
+
+    <span class="c1">/// Build timestamp. Set when this file was generated at the beginning of the build process.</span>
+    <span class="kd">static</span> <span class="kd">let</span> <span class="nv">timestamp</span> <span class="p">=</span> <span class="s">&quot;2020-05-10T23:03:15&quot;</span>
+
+    <span class="c1">/// A string summarizing the current Git revision.</span>
+    <span class="kd">static</span> <span class="kd">var</span> <span class="nv">description</span><span class="p">:</span> <span class="nb">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">&quot;</span><span class="si">\(</span><span class="n">commit</span><span class="si">)\(</span><span class="n">clean</span> <span class="p">?</span> <span class="s">&quot;&quot;</span> <span class="p">:</span> <span class="s">&quot;-dirty&quot;</span><span class="si">)</span><span class="s"> </span><span class="si">\(</span><span class="n">branch</span><span class="si">)</span><span class="s"> </span><span class="si">\(</span><span class="n">timestamp</span><span class="si">)</span><span class="s">&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+
+<p>If you leave that file open in Xcode when you build, you can see the property values change as the file gets regenerated.</p>
+<p>You can now reference <code>GitRevision.description</code> from your app's code to show the commit, branch, and build time.</p>
+</div>
 <div class="post">
   <div class="postTitle">
     <a href="/archives/2020/5/pretty-print-json.html">Pretty-Print JSON</a>
