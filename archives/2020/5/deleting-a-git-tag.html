@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Paul Calnan's Blog: Deleting a Git Tag</title>
+    <link rel="stylesheet" href="../../../theme/css/main.css">
+
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="header">
+        <table width="100%" border="0" cellpadding="0">
+          <tr>
+            <td class="headerTitle">
+              <a href="../../.." style="text-decoration: none;">Paul Calnan's Blog</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="headerLinks">
+<a href="../../../archives.html">Archives</a> |
+<a href="../../../pages/about.html">About</a> |
+<a href="https://github.com/pwc3/">Github</a>            </td>
+          </tr>
+        </table>
+      </div>
+
+
+<div class="post">
+  <div class="postTitle">
+    <a href="/archives/2020/5/deleting-a-git-tag.html">Deleting a Git Tag</a>
+  </div>
+  <div class="date">Published May 10, 2020</div>
+  <p>I can never remember the commands to delete a Git tag. It's one of those things I don't do frequently enough to remember &mdash; I always have to look it up.</p>
+<p>To delete a local tag called <code>TAGNAME</code>:</p>
+<div class="highlight"><pre><span></span><code>$ git tag --delete TAGNAME
+</code></pre></div>
+
+
+<p>To delete a remote tag called <code>TAGNAME</code>:</p>
+<div class="highlight"><pre><span></span><code>$ git push --delete origin TAGNAME
+</code></pre></div>
+
+
+<p>But rather than have to enter in two commands, I wrote a script that combines them:</p>
+<script src="https://gist.github.com/pwc3/28c0afebc055a13c99e5b6a1be73a330.js"></script>
+
+<p>That script is saved in my <code>~/bin</code> directory under the name <code>git-rmtag</code>. Using that naming convention, you can run it like this:</p>
+<div class="highlight"><pre><span></span><code>$ git rmtag TAGNAME
+</code></pre></div>
+
+
+<p>and it will delete the local and remote tags.</p>
+</div>
+
+
+      <div id="copyright">
+        <center>
+<a href="../../../archives.html">Archives</a> |
+<a href="../../../pages/about.html">About</a> |
+<a href="https://github.com/pwc3/">Github</a>          <br/><br/>
+          &copy; 2012-2020 Paul Calnan. All rights reserved.
+        </center>
+      </div>
+    </div>
+
+  </body>
+</html>

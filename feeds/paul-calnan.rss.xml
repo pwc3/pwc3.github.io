@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"><channel><title>Paul Calnan's Blog - Paul Calnan</title><link>https://www.paulcalnan.com/</link><description></description><lastBuildDate>Sun, 10 May 2020 20:49:47 -0400</lastBuildDate><item><title>Pretty-Print JSON</title><link>https://www.paulcalnan.com/archives/2020/5/pretty-print-json.html</link><description>&lt;p&gt;Here's a simple Python script to pretty-print a JSON file:&lt;/p&gt;
+&lt;script src="https://gist.github.com/pwc3/849a6da2b20f6a1e8bc9c9288b143bf4.js"&gt;&lt;/script&gt;
+
+&lt;p&gt;To format JSON from the pasteboard:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ pbpaste &lt;span class="p"&gt;|&lt;/span&gt; ppjson
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To format JSON in a file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ ppjson &amp;lt; filename
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Both with print the formatted JSON to stdout. To write to a file, you can redirect the output like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ ppjson &amp;lt; input_filename &amp;gt; output_filename
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Or …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Paul Calnan</dc:creator><pubDate>Sun, 10 May 2020 20:49:47 -0400</pubDate><guid isPermaLink="false">tag:www.paulcalnan.com,2020-05-10:/archives/2020/5/pretty-print-json.html</guid><category>misc</category></item><item><title>Deleting a Git Tag</title><link>https://www.paulcalnan.com/archives/2020/5/deleting-a-git-tag.html</link><description>&lt;p&gt;I can never remember the commands to delete a Git tag. It's one of those things I don't do frequently enough to remember &amp;mdash; I always have to look it up.&lt;/p&gt;
+&lt;p&gt;To delete a local tag called &lt;code&gt;TAGNAME&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ git tag --delete TAGNAME
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To delete a remote tag called &lt;code&gt;TAGNAME&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;$ git push …&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Paul Calnan</dc:creator><pubDate>Sun, 10 May 2020 20:40:37 -0400</pubDate><guid isPermaLink="false">tag:www.paulcalnan.com,2020-05-10:/archives/2020/5/deleting-a-git-tag.html</guid><category>misc</category></item><item><title>Reboot</title><link>https://www.paulcalnan.com/archives/2020/5/reboot.html</link><description>&lt;p&gt;It has been over five years since I have actively updated my blog. I have done some recent work that I wanted to post about, so I have decided to reboot my blog.&lt;/p&gt;
+&lt;p&gt;I have removed the old posts that I had up here previously. Most posts were badly outdated …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Paul Calnan</dc:creator><pubDate>Sun, 10 May 2020 20:02:49 -0400</pubDate><guid isPermaLink="false">tag:www.paulcalnan.com,2020-05-10:/archives/2020/5/reboot.html</guid><category>misc</category></item></channel></rss>

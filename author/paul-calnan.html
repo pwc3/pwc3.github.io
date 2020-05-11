@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Paul Calnan's Blog - Articles by Paul Calnan</title>
+    <link rel="stylesheet" href="../theme/css/main.css">
+
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="header">
+        <table width="100%" border="0" cellpadding="0">
+          <tr>
+            <td class="headerTitle">
+              <a href=".." style="text-decoration: none;">Paul Calnan's Blog</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="headerLinks">
+<a href="../archives.html">Archives</a> |
+<a href="../pages/about.html">About</a> |
+<a href="https://github.com/pwc3/">Github</a>            </td>
+          </tr>
+        </table>
+      </div>
+
+
+<div class="post">
+  <div class="postTitle">
+    <a href="/archives/2020/5/pretty-print-json.html">Pretty-Print JSON</a>
+  </div>
+  <div class="date">Published May 10, 2020</div>
+  <p>Here's a simple Python script to pretty-print a JSON file:</p>
+<script src="https://gist.github.com/pwc3/849a6da2b20f6a1e8bc9c9288b143bf4.js"></script>
+
+<p>To format JSON from the pasteboard:</p>
+<div class="highlight"><pre><span></span><code>$ pbpaste <span class="p">|</span> ppjson
+</code></pre></div>
+
+
+<p>To format JSON in a file:</p>
+<div class="highlight"><pre><span></span><code>$ ppjson &lt; filename
+</code></pre></div>
+
+
+<p>Both with print the formatted JSON to stdout. To write to a file, you can redirect the output like this:</p>
+<div class="highlight"><pre><span></span><code>$ ppjson &lt; input_filename &gt; output_filename
+</code></pre></div>
+
+
+<p>Or, you could format JSON from the pasteboard (using <code>pbpaste</code> piped through <code>ppjson</code>) the copy the formatted JSON back to the pasteboard (using <code>pbcopy</code>):</p>
+<div class="highlight"><pre><span></span><code>$ pbpaste <span class="p">|</span> ppjson <span class="p">|</span> pbcopy
+</code></pre></div>
+</div>
+<div class="post">
+  <div class="postTitle">
+    <a href="/archives/2020/5/deleting-a-git-tag.html">Deleting a Git Tag</a>
+  </div>
+  <div class="date">Published May 10, 2020</div>
+  <p>I can never remember the commands to delete a Git tag. It's one of those things I don't do frequently enough to remember &mdash; I always have to look it up.</p>
+<p>To delete a local tag called <code>TAGNAME</code>:</p>
+<div class="highlight"><pre><span></span><code>$ git tag --delete TAGNAME
+</code></pre></div>
+
+
+<p>To delete a remote tag called <code>TAGNAME</code>:</p>
+<div class="highlight"><pre><span></span><code>$ git push --delete origin TAGNAME
+</code></pre></div>
+
+
+<p>But rather than have to enter in two commands, I wrote a script that combines them:</p>
+<script src="https://gist.github.com/pwc3/28c0afebc055a13c99e5b6a1be73a330.js"></script>
+
+<p>That script is saved in my <code>~/bin</code> directory under the name <code>git-rmtag</code>. Using that naming convention, you can run it like this:</p>
+<div class="highlight"><pre><span></span><code>$ git rmtag TAGNAME
+</code></pre></div>
+
+
+<p>and it will delete the local and remote tags.</p>
+</div>
+<div class="post">
+  <div class="postTitle">
+    <a href="/archives/2020/5/reboot.html">Reboot</a>
+  </div>
+  <div class="date">Published May 10, 2020</div>
+  <p>It has been over five years since I have actively updated my blog. I have done some recent work that I wanted to post about, so I have decided to reboot my blog.</p>
+<p>I have removed the old posts that I had up here previously. Most posts were badly outdated. I will repost some of the topics that are still relevant.</p>
+<p>The blog is generated using <a href="https://blog.getpelican.com">Pelican</a> and is published using <a href="https://pages.github.com">Github Pages</a>. The <a href="https://github.com/pwc3/pwc3.github.io/blob/master/README.md">README</a> file in the blog's <a href="https://github.com/pwc3/pwc3.github.io">source repo</a> contains instructions on how to configure and build the site.</p>
+</div>
+
+<div class="paginator">
+
+
+</div>
+
+      <div id="copyright">
+        <center>
+<a href="../archives.html">Archives</a> |
+<a href="../pages/about.html">About</a> |
+<a href="https://github.com/pwc3/">Github</a>          <br/><br/>
+          &copy; 2012-2020 Paul Calnan. All rights reserved.
+        </center>
+      </div>
+    </div>
+
+  </body>
+</html>

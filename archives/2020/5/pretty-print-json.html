@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Paul Calnan's Blog: Pretty-Print JSON</title>
+    <link rel="stylesheet" href="../../../theme/css/main.css">
+
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="header">
+        <table width="100%" border="0" cellpadding="0">
+          <tr>
+            <td class="headerTitle">
+              <a href="../../.." style="text-decoration: none;">Paul Calnan's Blog</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="headerLinks">
+<a href="../../../archives.html">Archives</a> |
+<a href="../../../pages/about.html">About</a> |
+<a href="https://github.com/pwc3/">Github</a>            </td>
+          </tr>
+        </table>
+      </div>
+
+
+<div class="post">
+  <div class="postTitle">
+    <a href="/archives/2020/5/pretty-print-json.html">Pretty-Print JSON</a>
+  </div>
+  <div class="date">Published May 10, 2020</div>
+  <p>Here's a simple Python script to pretty-print a JSON file:</p>
+<script src="https://gist.github.com/pwc3/849a6da2b20f6a1e8bc9c9288b143bf4.js"></script>
+
+<p>To format JSON from the pasteboard:</p>
+<div class="highlight"><pre><span></span><code>$ pbpaste <span class="p">|</span> ppjson
+</code></pre></div>
+
+
+<p>To format JSON in a file:</p>
+<div class="highlight"><pre><span></span><code>$ ppjson &lt; filename
+</code></pre></div>
+
+
+<p>Both with print the formatted JSON to stdout. To write to a file, you can redirect the output like this:</p>
+<div class="highlight"><pre><span></span><code>$ ppjson &lt; input_filename &gt; output_filename
+</code></pre></div>
+
+
+<p>Or, you could format JSON from the pasteboard (using <code>pbpaste</code> piped through <code>ppjson</code>) the copy the formatted JSON back to the pasteboard (using <code>pbcopy</code>):</p>
+<div class="highlight"><pre><span></span><code>$ pbpaste <span class="p">|</span> ppjson <span class="p">|</span> pbcopy
+</code></pre></div>
+</div>
+
+
+      <div id="copyright">
+        <center>
+<a href="../../../archives.html">Archives</a> |
+<a href="../../../pages/about.html">About</a> |
+<a href="https://github.com/pwc3/">Github</a>          <br/><br/>
+          &copy; 2012-2020 Paul Calnan. All rights reserved.
+        </center>
+      </div>
+    </div>
+
+  </body>
+</html>
