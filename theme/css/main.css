@@ -138,3 +138,9 @@ pre {
   background-color: #f6f8fa;
 }
 
+/* Styling embedded gists */
+.blob-code, .blob-num {
+   font-size: 12px !important;
+}
+/* End styling embedded gists */
+
