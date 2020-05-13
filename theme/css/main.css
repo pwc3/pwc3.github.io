@@ -125,7 +125,6 @@ div.highlight {
 code {
   font-family: SFMono-Regular,Menlo,Monaco,'Bitstream Vera Sans Mono','Courier New',monospace;
   font-size: 12px;
-  line-height: 18px;
   overflow: auto;
   background-color: #f6f8fa;
 }
@@ -133,8 +132,17 @@ code {
 pre {
   font-family: SFMono-Regular,Menlo,Monaco,'Bitstream Vera Sans Mono','Courier New',monospace;
   font-size: 12px;
-  line-height: 18px;
   overflow: auto;
   background-color: #f6f8fa;
+  padding: 12px;
+  margin: 0px;
 }
 
+div.gist-footer {
+  margin: 2px 0px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: bold;
+  background-color: #eef0f2;
+}
