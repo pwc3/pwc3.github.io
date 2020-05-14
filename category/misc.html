@@ -33,6 +33,57 @@
 
 <div class="post">
   <div class="postTitle">
+    <a href="/archives/2020/5/computing-cryptographic-hashes-in-swift.html">Computing Cryptographic Hashes in Swift</a>
+  </div>
+  <div class="date">Published May 13, 2020</div>
+  <p>Computing cryptographic hashes in Swift has gotten easier in recent times. Prior to Xcode 10, it used to be difficult to import the <code>CommonCrypto</code> library which did the computation. Xcode 10 added a module for that library, making it easier to do the import. But the API still looks like a C API. Using the library directly requires you to write something like this:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">import</span> <span class="nc">CommonCrypto</span>
+<span class="kd">import</span> <span class="nc">Foundation</span>
+
+<span class="c1">// Compute the digest of this string:</span>
+<span class="kd">let</span> <span class="nv">messageString</span> <span class="p">=</span> <span class="s">&quot;The quick brown fox jumps over the lazy dog&quot;</span>
+
+<span class="c1">// Convert the string to a byte array.</span>
+<span class="kd">let</span> <span class="nv">messageData</span> <span class="p">=</span> <span class="n">Data</span><span class="p">(</span><span class="n">messageString</span><span class="p">.</span><span class="n">utf8</span><span class="p">)</span>
+
+<span class="c1">// Compute the hash using CommonCrypto.</span>
+<span class="kd">var</span> <span class="nv">digestData</span> <span class="p">=</span> <span class="n">Data</span><span class="p">(</span><span class="bp">count</span><span class="p">:</span> <span class="nb">Int</span><span class="p">(</span><span class="n">CC_SHA224_DIGEST_LENGTH</span><span class="p">))</span>
+<span class="n">digestData</span><span class="p">.</span><span class="n">withUnsafeMutableBytes</span> <span class="p">{</span> <span class="p">(</span><span class="n">digestBuffer</span><span class="p">:</span> <span class="n">UnsafeMutableRawBufferPointer</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Void</span> <span class="k">in</span>
+    <span class="n">messageData</span><span class="p">.</span><span class="n">withUnsafeBytes</span> <span class="p">{</span> <span class="p">(</span><span class="n">messageBuffer</span><span class="p">:</span> <span class="n">UnsafeRawBufferPointer</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Void</span> <span class="k">in</span>
+        <span class="kc">_</span> <span class="p">=</span> <span class="n">CC_SHA224</span><span class="p">(</span><span class="n">messageBuffer</span><span class="p">.</span><span class="n">baseAddress</span><span class="p">,</span>
+                      <span class="n">CC_LONG</span><span class="p">(</span><span class="n">messageBuffer</span><span class="p">.</span><span class="bp">count</span><span class="p">),</span>
+                      <span class="n">digestBuffer</span><span class="p">.</span><span class="n">baseAddress</span><span class="p">?.</span><span class="n">assumingMemoryBound</span><span class="p">(</span><span class="n">to</span><span class="p">:</span> <span class="nb">UInt8</span><span class="p">.</span><span class="kc">self</span><span class="p">))</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Convert the digestData byte buffer into a hex string.</span>
+<span class="kd">let</span> <span class="nv">digestString</span> <span class="p">=</span> <span class="n">digestData</span><span class="p">.</span><span class="bp">map</span> <span class="p">{</span> <span class="nb">String</span><span class="p">(</span><span class="n">format</span><span class="p">:</span> <span class="s">&quot;%02hhx&quot;</span><span class="p">,</span> <span class="nv">$0</span><span class="p">)</span> <span class="p">}.</span><span class="n">joined</span><span class="p">()</span>
+
+<span class="c1">// prints 730e109bd7a8a32b1cb9d9a09aa2325d2430587ddbc0c38bad911525</span>
+<span class="bp">print</span><span class="p">(</span><span class="n">digestString</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>That's a fair amount of boilerplate to accomplish this. Also, the meat of that code &mdash; the <code>withUnsafeMutableBytes</code> and <code>withUnsafeBytes</code> &mdash; changed between Swift versions.</p>
+<p>Rather than deal with that in production code, I wrote a small <a href="https://github.com/pwc3/HashAlgorithm">Swift library called <code>HashAlgorithm</code></a> to simplify the process.</p>
+<p>Using it is pretty simple. Instead of the code above, you just do this:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">import</span> <span class="nc">Foundation</span>
+<span class="kd">import</span> <span class="nc">HashAlgorithm</span>
+
+<span class="c1">// Compute the digest of this string:</span>
+<span class="kd">let</span> <span class="nv">messageString</span> <span class="p">=</span> <span class="s">&quot;The quick brown fox jumps over the lazy dog&quot;</span>
+<span class="kd">let</span> <span class="nv">digest</span> <span class="p">=</span> <span class="n">HashAlgorithm</span><span class="p">.</span><span class="n">SHA224</span><span class="p">.</span><span class="n">digest</span><span class="p">(</span><span class="n">messageString</span><span class="p">)</span>
+
+<span class="c1">// prints 730e109bd7a8a32b1cb9d9a09aa2325d2430587ddbc0c38bad911525</span>
+<span class="bp">print</span><span class="p">(</span><span class="n">digest</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>It supports all of the (non-deprecated) cryptographic hash algorithms currently provided by <code>CommonCrypto</code>: SHA1, SHA224, SHA256, SHA384, and SHA512.</p>
+<p><a href="https://github.com/pwc3/HashAlgorithm">The library is available on Github</a>.</p>
+</div>
+<div class="post">
+  <div class="postTitle">
     <a href="/archives/2020/5/unfuck-xcode.html">Unfuck Xcode</a>
   </div>
   <div class="date">Published May 13, 2020</div>
@@ -240,18 +291,11 @@ git push --delete origin <span class="nv">$tagname</span>
 
 <p>and it will delete the local and remote tags.</p>
 </div>
-<div class="post">
-  <div class="postTitle">
-    <a href="/archives/2020/5/reboot.html">Reboot</a>
-  </div>
-  <div class="date">Published May 10, 2020</div>
-  <p>It has been over five years since I have actively updated my blog. I have done some recent work that I wanted to post about, so I have decided to reboot my blog.</p>
-<p>I have removed the old posts that I had up here previously. Most posts were badly outdated. I will repost some of the topics that are still relevant.</p>
-</div>
 
 <div class="paginator">
 
 
+    <a href="../category/misc2.html">Older Posts</a>
 </div>
 
       <div id="copyright">
