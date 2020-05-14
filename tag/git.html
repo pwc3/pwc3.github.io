@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Paul Calnan's Blog - Articles by Paul Calnan</title>
+    <title>Paul Calnan's Blog - Git tag</title>
     <link rel="stylesheet" href="../theme/css/main.css">
     <link rel="stylesheet" href="../theme/css/xcode.css">
 
@@ -24,6 +24,7 @@
           <tr>
             <td class="headerLinks">
 <a href="../archives.html">Archives</a> |
+<a href="../tags.html">Tags</a> |
 <a href="../pages/about.html">About</a> |
 <a href="https://github.com/pwc3/">Github</a>            </td>
           </tr>
@@ -31,84 +32,6 @@
       </div>
 
 
-<div class="post">
-  <div class="postTitle">
-    <a href="/archives/2020/5/computing-cryptographic-hashes-in-swift.html">Computing Cryptographic Hashes in Swift</a>
-  </div>
-  <div class="date">Published May 13, 2020</div>
-  <p>Computing cryptographic hashes in Swift has gotten easier in recent times. Prior to Xcode 10, it used to be difficult to import the <code>CommonCrypto</code> library which did the computation. Xcode 10 added a module for that library, making it easier to do the import. But the API still looks like a C API. Using the library directly requires you to write something like this:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">import</span> <span class="nc">CommonCrypto</span>
-<span class="kd">import</span> <span class="nc">Foundation</span>
-
-<span class="c1">// Compute the digest of this string:</span>
-<span class="kd">let</span> <span class="nv">messageString</span> <span class="p">=</span> <span class="s">&quot;The quick brown fox jumps over the lazy dog&quot;</span>
-
-<span class="c1">// Convert the string to a byte array.</span>
-<span class="kd">let</span> <span class="nv">messageData</span> <span class="p">=</span> <span class="n">Data</span><span class="p">(</span><span class="n">messageString</span><span class="p">.</span><span class="n">utf8</span><span class="p">)</span>
-
-<span class="c1">// Compute the hash using CommonCrypto.</span>
-<span class="kd">var</span> <span class="nv">digestData</span> <span class="p">=</span> <span class="n">Data</span><span class="p">(</span><span class="bp">count</span><span class="p">:</span> <span class="nb">Int</span><span class="p">(</span><span class="n">CC_SHA224_DIGEST_LENGTH</span><span class="p">))</span>
-<span class="n">digestData</span><span class="p">.</span><span class="n">withUnsafeMutableBytes</span> <span class="p">{</span> <span class="p">(</span><span class="n">digestBuffer</span><span class="p">:</span> <span class="n">UnsafeMutableRawBufferPointer</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Void</span> <span class="k">in</span>
-    <span class="n">messageData</span><span class="p">.</span><span class="n">withUnsafeBytes</span> <span class="p">{</span> <span class="p">(</span><span class="n">messageBuffer</span><span class="p">:</span> <span class="n">UnsafeRawBufferPointer</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Void</span> <span class="k">in</span>
-        <span class="kc">_</span> <span class="p">=</span> <span class="n">CC_SHA224</span><span class="p">(</span><span class="n">messageBuffer</span><span class="p">.</span><span class="n">baseAddress</span><span class="p">,</span>
-                      <span class="n">CC_LONG</span><span class="p">(</span><span class="n">messageBuffer</span><span class="p">.</span><span class="bp">count</span><span class="p">),</span>
-                      <span class="n">digestBuffer</span><span class="p">.</span><span class="n">baseAddress</span><span class="p">?.</span><span class="n">assumingMemoryBound</span><span class="p">(</span><span class="n">to</span><span class="p">:</span> <span class="nb">UInt8</span><span class="p">.</span><span class="kc">self</span><span class="p">))</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// Convert the digestData byte buffer into a hex string.</span>
-<span class="kd">let</span> <span class="nv">digestString</span> <span class="p">=</span> <span class="n">digestData</span><span class="p">.</span><span class="bp">map</span> <span class="p">{</span> <span class="nb">String</span><span class="p">(</span><span class="n">format</span><span class="p">:</span> <span class="s">&quot;%02hhx&quot;</span><span class="p">,</span> <span class="nv">$0</span><span class="p">)</span> <span class="p">}.</span><span class="n">joined</span><span class="p">()</span>
-
-<span class="c1">// prints 730e109bd7a8a32b1cb9d9a09aa2325d2430587ddbc0c38bad911525</span>
-<span class="bp">print</span><span class="p">(</span><span class="n">digestString</span><span class="p">)</span>
-</code></pre></div>
-
-
-<p>That's a fair amount of boilerplate to accomplish this. Also, the meat of that code &mdash; the <code>withUnsafeMutableBytes</code> and <code>withUnsafeBytes</code> &mdash; changed between Swift versions.</p>
-<p>Rather than deal with that in production code, I wrote a small <a href="https://github.com/pwc3/HashAlgorithm">Swift library called <code>HashAlgorithm</code></a> to simplify the process.</p>
-<p>Using it is pretty simple. Instead of the code above, you just do this:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">import</span> <span class="nc">Foundation</span>
-<span class="kd">import</span> <span class="nc">HashAlgorithm</span>
-
-<span class="c1">// Compute the digest of this string:</span>
-<span class="kd">let</span> <span class="nv">messageString</span> <span class="p">=</span> <span class="s">&quot;The quick brown fox jumps over the lazy dog&quot;</span>
-<span class="kd">let</span> <span class="nv">digest</span> <span class="p">=</span> <span class="n">HashAlgorithm</span><span class="p">.</span><span class="n">SHA224</span><span class="p">.</span><span class="n">digest</span><span class="p">(</span><span class="n">messageString</span><span class="p">)</span>
-
-<span class="c1">// prints 730e109bd7a8a32b1cb9d9a09aa2325d2430587ddbc0c38bad911525</span>
-<span class="bp">print</span><span class="p">(</span><span class="n">digest</span><span class="p">)</span>
-</code></pre></div>
-
-
-<p>It supports all of the (non-deprecated) cryptographic hash algorithms currently provided by <code>CommonCrypto</code>: SHA1, SHA224, SHA256, SHA384, and SHA512.</p>
-<p><a href="https://github.com/pwc3/HashAlgorithm">The library is available on Github</a>.</p>
-</div>
-<div class="post">
-  <div class="postTitle">
-    <a href="/archives/2020/5/unfuck-xcode.html">Unfuck Xcode</a>
-  </div>
-  <div class="date">Published May 13, 2020</div>
-  <p>Has Xcode stopped working for you? Builds acting funny? Autocomplete stopped working? You've quit and restarted it, cleaned the build folder, and it's still broken?</p>
-<p>Try running this.</p>
-
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
-
-<span class="nb">set</span> -euo pipefail
-
-<span class="nb">echo</span> <span class="s2">&quot;Exiting Xcode&quot;</span>
-osascript -e <span class="s1">&#39;quit app &quot;Xcode&quot;&#39;</span>
-
-<span class="nb">echo</span> <span class="s2">&quot;Deleting DerivedData&quot;</span>
-rm -rf ~/Library/Developer/Xcode/DerivedData/*
-
-<span class="nb">echo</span> <span class="s2">&quot;Deleting llvm module cache&quot;</span>
-rm -rf <span class="s2">&quot;</span><span class="k">$(</span>getconf DARWIN_USER_CACHE_DIR<span class="k">)</span><span class="s2">/org.llvm.clang/ModuleCache&quot;</span>
-
-<span class="nb">echo</span> <span class="s2">&quot;Relaunching Xcode&quot;</span>
-open -a Xcode
-</pre></div>
-
-<div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/6648ef8437d6fe34730ba4841a3d17e1">unfuck-xcode</a></div>
-</div>
 <div class="post">
   <div class="postTitle">
     <a href="/archives/2020/5/git-revision-info-in-app.html">Git Revision Info in App</a>
@@ -206,46 +129,6 @@ cat <span class="s">&lt;&lt;SWIFT</span>
 </div>
 <div class="post">
   <div class="postTitle">
-    <a href="/archives/2020/5/pretty-print-json.html">Pretty-Print JSON</a>
-  </div>
-  <div class="date">Published May 10, 2020</div>
-  <p>Here's a simple Python script to pretty-print a JSON file:</p>
-
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
-
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">json</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">),</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error:&quot;</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
-    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-<div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/849a6da2b20f6a1e8bc9c9288b143bf4">ppjson</a></div>
-<p>To format JSON from the pasteboard:</p>
-<div class="highlight"><pre><span></span><code>$ pbpaste <span class="p">|</span> ppjson
-</code></pre></div>
-
-
-<p>To format JSON in a file:</p>
-<div class="highlight"><pre><span></span><code>$ ppjson &lt; filename
-</code></pre></div>
-
-
-<p>Both with print the formatted JSON to stdout. To write to a file, you can redirect the output like this:</p>
-<div class="highlight"><pre><span></span><code>$ ppjson &lt; input_filename &gt; output_filename
-</code></pre></div>
-
-
-<p>Or, you could format JSON from the pasteboard (using <code>pbpaste</code> piped through <code>ppjson</code>) the copy the formatted JSON back to the pasteboard (using <code>pbcopy</code>):</p>
-<div class="highlight"><pre><span></span><code>$ pbpaste <span class="p">|</span> ppjson <span class="p">|</span> pbcopy
-</code></pre></div>
-</div>
-<div class="post">
-  <div class="postTitle">
     <a href="/archives/2020/5/deleting-a-git-tag.html">Deleting a Git Tag</a>
   </div>
   <div class="date">Published May 10, 2020</div>
@@ -295,12 +178,12 @@ git push --delete origin <span class="nv">$tagname</span>
 <div class="paginator">
 
 
-    <a href="../author/paul-calnan2.html">Older Posts</a>
 </div>
 
       <div id="copyright">
         <center>
 <a href="../archives.html">Archives</a> |
+<a href="../tags.html">Tags</a> |
 <a href="../pages/about.html">About</a> |
 <a href="https://github.com/pwc3/">Github</a>          <br/><br/>
           &copy; 2012-2020 Paul Calnan. All rights reserved.

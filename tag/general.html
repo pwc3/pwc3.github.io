@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Paul Calnan's Blog - misc category</title>
+    <title>Paul Calnan's Blog - General tag</title>
     <link rel="stylesheet" href="../theme/css/main.css">
     <link rel="stylesheet" href="../theme/css/xcode.css">
 
@@ -24,6 +24,7 @@
           <tr>
             <td class="headerLinks">
 <a href="../archives.html">Archives</a> |
+<a href="../tags.html">Tags</a> |
 <a href="../pages/about.html">About</a> |
 <a href="https://github.com/pwc3/">Github</a>            </td>
           </tr>
@@ -31,6 +32,33 @@
       </div>
 
 
+<div class="post">
+  <div class="postTitle">
+    <a href="/archives/2020/5/unfuck-xcode.html">Unfuck Xcode</a>
+  </div>
+  <div class="date">Published May 13, 2020</div>
+  <p>Has Xcode stopped working for you? Builds acting funny? Autocomplete stopped working? You've quit and restarted it, cleaned the build folder, and it's still broken?</p>
+<p>Try running this.</p>
+
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="nb">set</span> -euo pipefail
+
+<span class="nb">echo</span> <span class="s2">&quot;Exiting Xcode&quot;</span>
+osascript -e <span class="s1">&#39;quit app &quot;Xcode&quot;&#39;</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;Deleting DerivedData&quot;</span>
+rm -rf ~/Library/Developer/Xcode/DerivedData/*
+
+<span class="nb">echo</span> <span class="s2">&quot;Deleting llvm module cache&quot;</span>
+rm -rf <span class="s2">&quot;</span><span class="k">$(</span>getconf DARWIN_USER_CACHE_DIR<span class="k">)</span><span class="s2">/org.llvm.clang/ModuleCache&quot;</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;Relaunching Xcode&quot;</span>
+open -a Xcode
+</pre></div>
+
+<div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/6648ef8437d6fe34730ba4841a3d17e1">unfuck-xcode</a></div>
+</div>
 <div class="post">
   <div class="postTitle">
     <a href="/archives/2020/5/reboot.html">Reboot</a>
@@ -41,7 +69,6 @@
 </div>
 
 <div class="paginator">
-      <a href="../category/misc.html">Newer Posts</a>
 
 
 </div>
@@ -49,6 +76,7 @@
       <div id="copyright">
         <center>
 <a href="../archives.html">Archives</a> |
+<a href="../tags.html">Tags</a> |
 <a href="../pages/about.html">About</a> |
 <a href="https://github.com/pwc3/">Github</a>          <br/><br/>
           &copy; 2012-2020 Paul Calnan. All rights reserved.

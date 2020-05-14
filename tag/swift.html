@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Paul Calnan's Blog - misc category</title>
+    <title>Paul Calnan's Blog - Swift tag</title>
     <link rel="stylesheet" href="../theme/css/main.css">
     <link rel="stylesheet" href="../theme/css/xcode.css">
 
@@ -24,6 +24,7 @@
           <tr>
             <td class="headerLinks">
 <a href="../archives.html">Archives</a> |
+<a href="../tags.html">Tags</a> |
 <a href="../pages/about.html">About</a> |
 <a href="https://github.com/pwc3/">Github</a>            </td>
           </tr>
@@ -204,103 +205,16 @@ cat <span class="s">&lt;&lt;SWIFT</span>
 <p>If you leave that file open in Xcode when you build, you can see the property values change as the file gets regenerated.</p>
 <p>You can now reference <code>GitRevision.description</code> from your app's code to show the commit, branch, and build time.</p>
 </div>
-<div class="post">
-  <div class="postTitle">
-    <a href="/archives/2020/5/pretty-print-json.html">Pretty-Print JSON</a>
-  </div>
-  <div class="date">Published May 10, 2020</div>
-  <p>Here's a simple Python script to pretty-print a JSON file:</p>
-
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
-
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">json</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">),</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Error:&quot;</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
-    <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-<div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/849a6da2b20f6a1e8bc9c9288b143bf4">ppjson</a></div>
-<p>To format JSON from the pasteboard:</p>
-<div class="highlight"><pre><span></span><code>$ pbpaste <span class="p">|</span> ppjson
-</code></pre></div>
-
-
-<p>To format JSON in a file:</p>
-<div class="highlight"><pre><span></span><code>$ ppjson &lt; filename
-</code></pre></div>
-
-
-<p>Both with print the formatted JSON to stdout. To write to a file, you can redirect the output like this:</p>
-<div class="highlight"><pre><span></span><code>$ ppjson &lt; input_filename &gt; output_filename
-</code></pre></div>
-
-
-<p>Or, you could format JSON from the pasteboard (using <code>pbpaste</code> piped through <code>ppjson</code>) the copy the formatted JSON back to the pasteboard (using <code>pbcopy</code>):</p>
-<div class="highlight"><pre><span></span><code>$ pbpaste <span class="p">|</span> ppjson <span class="p">|</span> pbcopy
-</code></pre></div>
-</div>
-<div class="post">
-  <div class="postTitle">
-    <a href="/archives/2020/5/deleting-a-git-tag.html">Deleting a Git Tag</a>
-  </div>
-  <div class="date">Published May 10, 2020</div>
-  <p>I can never remember the commands to delete a Git tag. It's one of those things I don't do frequently enough to remember &mdash; I always have to look it up.</p>
-<p>To delete a local tag called <code>TAGNAME</code>:</p>
-<div class="highlight"><pre><span></span><code>$ git tag --delete TAGNAME
-</code></pre></div>
-
-
-<p>To delete a remote tag called <code>TAGNAME</code>:</p>
-<div class="highlight"><pre><span></span><code>$ git push --delete origin TAGNAME
-</code></pre></div>
-
-
-<p>But rather than have to enter in two commands, I wrote a script that combines them:</p>
-
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
-
-<span class="nb">set</span> -euo pipefail
-
-<span class="nv">E_BADARGS</span><span class="o">=</span><span class="m">85</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$#</span> -ne <span class="m">1</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="k">$(</span>basename <span class="nv">$0</span><span class="k">)</span><span class="s2"> tag-name&quot;</span>
-    <span class="nb">exit</span> <span class="nv">$E_BADARGS</span>
-<span class="k">fi</span>
-
-<span class="nv">tagname</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
-
-<span class="c1"># Delete the local tag</span>
-<span class="nb">echo</span> <span class="s2">&quot;Deleting local tag </span><span class="nv">$tagname</span><span class="s2">&quot;</span>
-git tag --delete <span class="nv">$tagname</span>
-
-<span class="c1"># Delete the remote tag</span>
-<span class="nb">echo</span> <span class="s2">&quot;Deleting remote tag </span><span class="nv">$tagname</span><span class="s2">&quot;</span>
-git push --delete origin <span class="nv">$tagname</span>
-</pre></div>
-
-<div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/28c0afebc055a13c99e5b6a1be73a330">git-rmtag</a></div>
-<p>That script is saved in my <code>~/bin</code> directory under the name <code>git-rmtag</code>. Using that naming convention, you can run it like this:</p>
-<div class="highlight"><pre><span></span><code>$ git rmtag TAGNAME
-</code></pre></div>
-
-
-<p>and it will delete the local and remote tags.</p>
-</div>
 
 <div class="paginator">
 
 
-    <a href="../category/misc2.html">Older Posts</a>
 </div>
 
       <div id="copyright">
         <center>
 <a href="../archives.html">Archives</a> |
+<a href="../tags.html">Tags</a> |
 <a href="../pages/about.html">About</a> |
 <a href="https://github.com/pwc3/">Github</a>          <br/><br/>
           &copy; 2012-2020 Paul Calnan. All rights reserved.
