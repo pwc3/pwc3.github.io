@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Paul Calnan's Blog</title><link>https://www.paulcalnan.com/</link><description></description><lastBuildDate>Mon, 21 Dec 2020 13:49:13 -0500</lastBuildDate><item><title>Euler's Identity</title><link>https://www.paulcalnan.com/archives/2020/12/eulers-identity.html</link><description>&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Euler%27s_formula"&gt;Euler's formula&lt;/a&gt; states that for any real number \(x\):&lt;/p&gt;
+<rss version="2.0"><channel><title>Paul Calnan's Blog</title><link>https://www.paulcalnan.com/</link><description></description><lastBuildDate>Mon, 21 Dec 2020 14:15:38 -0500</lastBuildDate><item><title>Formulas for min and max</title><link>https://www.paulcalnan.com/archives/2020/12/formulas-for-min-and-max.html</link><description>&lt;p&gt;I have been reading &lt;a href="https://www.amazon.com/gp/product/0914098918/ref=as_li_tl?ie=UTF8&amp;amp;camp=1789&amp;amp;creative=9325&amp;amp;creativeASIN=0914098918&amp;amp;linkCode=as2&amp;amp;tag=paulcalnancom-20&amp;amp;linkId=f2d21bf0acfd1505d3b52a2f86de4339"&gt;a Calculus book&lt;/a&gt; recently and came across formulas for &lt;em&gt;min&lt;/em&gt; and &lt;em&gt;max&lt;/em&gt;:&lt;/p&gt;
+&lt;p&gt;\[
+\begin{align}
+min(x, y) = \frac{x + y - |y - x|}{2} \\
+max(x, y) = \frac{x + y + |y - x|}{2}
+\end{align}
+\]&lt;/p&gt;
+&lt;p&gt;Here \(\frac{x + y}{2}\) is the average of the two numbers …&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Paul Calnan</dc:creator><pubDate>Mon, 21 Dec 2020 14:15:38 -0500</pubDate><guid isPermaLink="false">tag:www.paulcalnan.com,2020-12-21:/archives/2020/12/formulas-for-min-and-max.html</guid><category>misc</category><category>Math</category></item><item><title>Euler's Identity</title><link>https://www.paulcalnan.com/archives/2020/12/eulers-identity.html</link><description>&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Euler%27s_formula"&gt;Euler's formula&lt;/a&gt; states that for any real number \(x\):&lt;/p&gt;
 &lt;p&gt;\[
 e^{ix} = \cos x + i \sin x
 \]&lt;/p&gt;
