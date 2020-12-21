@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="./theme/css/main.css">
     <link rel="stylesheet" href="./theme/css/xcode.css">
 
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
   </head>
 
   <body>
@@ -32,6 +34,53 @@
       </div>
 
 
+<div class="post">
+  <div class="postTitle">
+    <a href="/archives/2020/12/eulers-identity.html">Euler's Identity</a>
+  </div>
+  <div class="date">Published December 21, 2020</div>
+  <p><a href="https://en.wikipedia.org/wiki/Euler%27s_formula">Euler's formula</a> states that for any real number \(x\):</p>
+<p>\[
+e^{ix} = \cos x + i \sin x
+\]</p>
+<p>When \(x = \pi\), Euler's formula evaluates to:</p>
+<p>\[
+e^{i\pi} + 1 = 0
+\]</p>
+<p>This is known as <a href="https://en.wikipedia.org/wiki/Euler%27s_identity">Euler's identity</a> and it links five fundamental mathematical constants (\(\pi\), \(e\), \(i\), \(0\), and \(1\)) in a beautifully simple equation. Richard Feynman called the equation "the most remarkable formula in mathematics."</p>
+<p>The formula can be interpreted as saying that the function \(e^{i\phi}\) is a unit complex number, i.e. it traces out the unit circle in the complex plane as \(\phi\) ranges through the real numbers.</p>
+<p><img alt="" src="./archives/2020/12/Images/eulers-formula.svg"></p>
+<p>We can derive Euler's formula from the Maclaurin series expansions of \(\sin x\), \(\cos x\), and \(e^x\):</p>
+<p>\[
+\begin{align}
+\sin x &amp;= \sum_{n=0}^\infty \frac{(-1)^n}{(2n+1)!} x^{2n+1} \\
+&amp;= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots \\
+\cos x &amp;= \sum_{n=0}^\infty \frac{(-1)^n}{(2n)!} x^{2n} \\
+&amp;= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots \\
+e^x &amp;= \sum_{n = 0}^{\infty} \frac{x^n}{n!} \\
+&amp;= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots
+\end{align}
+\]</p>
+<p>Thus:</p>
+<p>\[
+\begin{align}
+e^{ix} &amp;= \sum_{n = 0}^{\infty} \frac{(ix)^n}{n!} \\
+e^{ix} &amp;= 1 + ix + \frac{(ix)^2}{2!} + \frac{(ix)^3}{3!} + \frac{(ix)^4}{4!} + \frac{(ix)^5}{5!} + \frac{(ix)^6}{6!} + \frac{(ix)^7}{7!} + \cdots \\
+&amp;= 1 + ix - \frac{x^2}{2!} - \frac{ix^3}{3!} + \frac{x^4}{4!} + \frac{ix^5}{5!} - \frac{x^6}{6!} - \frac{ix^7}{7!} + \cdots \\
+&amp;= \left( 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} - \cdots \right) + \left( ix - \frac{ix^3}{3!} + \frac{ix^5}{5!} - \frac{ix^7}{7!} + \cdots \right) \\
+&amp;= \left( 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} - \cdots \right) + i\left( x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots \right) \\
+&amp;= \cos x + i\sin x
+\end{align}
+\]</p>
+<p>This yields Euler's identity. Substitute \(\pi\) for \(x\). Since \(\cos \pi = -1\) and \(\sin \pi = 0\), it follows that:</p>
+<p>\[
+e^{i\pi} = -1 + 0i
+\]</p>
+<p>or</p>
+<p>\[
+e^{i\pi} + 1 = 0
+\]</p>
+</div>
 <div class="post">
   <div class="postTitle">
     <a href="/archives/2020/5/computing-cryptographic-hashes-in-swift.html">Computing Cryptographic Hashes in Swift</a>
@@ -245,53 +294,6 @@ cat <span class="s">&lt;&lt;SWIFT</span>
 <p>Or, you could format JSON from the pasteboard (using <code>pbpaste</code> piped through <code>ppjson</code>) the copy the formatted JSON back to the pasteboard (using <code>pbcopy</code>):</p>
 <div class="highlight"><pre><span></span><code>$ pbpaste <span class="p">|</span> ppjson <span class="p">|</span> pbcopy
 </code></pre></div>
-</div>
-<div class="post">
-  <div class="postTitle">
-    <a href="/archives/2020/5/deleting-a-git-tag.html">Deleting a Git Tag</a>
-  </div>
-  <div class="date">Published May 10, 2020</div>
-  <p>I can never remember the commands to delete a Git tag. It's one of those things I don't do frequently enough to remember &mdash; I always have to look it up.</p>
-<p>To delete a local tag called <code>TAGNAME</code>:</p>
-<div class="highlight"><pre><span></span><code>$ git tag --delete TAGNAME
-</code></pre></div>
-
-
-<p>To delete a remote tag called <code>TAGNAME</code>:</p>
-<div class="highlight"><pre><span></span><code>$ git push --delete origin TAGNAME
-</code></pre></div>
-
-
-<p>But rather than have to enter in two commands, I wrote a script that combines them:</p>
-
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
-
-<span class="nb">set</span> -euo pipefail
-
-<span class="nv">E_BADARGS</span><span class="o">=</span><span class="m">85</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$#</span> -ne <span class="m">1</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="k">$(</span>basename <span class="nv">$0</span><span class="k">)</span><span class="s2"> tag-name&quot;</span>
-    <span class="nb">exit</span> <span class="nv">$E_BADARGS</span>
-<span class="k">fi</span>
-
-<span class="nv">tagname</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
-
-<span class="c1"># Delete the local tag</span>
-<span class="nb">echo</span> <span class="s2">&quot;Deleting local tag </span><span class="nv">$tagname</span><span class="s2">&quot;</span>
-git tag --delete <span class="nv">$tagname</span>
-
-<span class="c1"># Delete the remote tag</span>
-<span class="nb">echo</span> <span class="s2">&quot;Deleting remote tag </span><span class="nv">$tagname</span><span class="s2">&quot;</span>
-git push --delete origin <span class="nv">$tagname</span>
-</pre></div>
-
-<div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/28c0afebc055a13c99e5b6a1be73a330">git-rmtag</a></div>
-<p>That script is saved in my <code>~/bin</code> directory under the name <code>git-rmtag</code>. Using that naming convention, you can run it like this:</p>
-<div class="highlight"><pre><span></span><code>$ git rmtag TAGNAME
-</code></pre></div>
-
-
-<p>and it will delete the local and remote tags.</p>
 </div>
 
 <div class="paginator">

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xl="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" version="1.1" viewBox="506 90 514 431" width="514" height="431">
+  <defs>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 10 8" markerWidth="10" markerHeight="8" color="#9a9a9a">
+      <g>
+        <path d="M 8 0 L 0 -3 L 0 3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker_2" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-9 -4 10 8" markerWidth="10" markerHeight="8" color="#9a9a9a">
+      <g>
+        <path d="M -8 0 L 0 3 L 0 -3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <font-face font-family="Times New Roman" font-size="16" panose-1="2 2 5 3 5 4 5 9 3 4" units-per-em="1000" underline-position="-108.88672" underline-thickness="48.828125" slope="-1020.812" x-height="430.1758" cap-height="662.1094" ascent="891.1133" descent="-216.3086" font-style="italic" font-weight="400">
+      <font-face-src>
+        <font-face-name name="TimesNewRomanPS-ItalicMT"/>
+      </font-face-src>
+    </font-face>
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker_3" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 8 8" markerWidth="8" markerHeight="8" color="black">
+      <g>
+        <path d="M 5.866667 0 L 0 -2.2 L 0 2.2 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+      </g>
+    </marker>
+    <font-face font-family="Times New Roman" font-size="12" panose-1="2 2 5 3 5 4 5 9 3 4" units-per-em="1000" underline-position="-108.88672" underline-thickness="48.828125" slope="-1361.0827" x-height="430.1758" cap-height="662.1094" ascent="891.1133" descent="-216.3086" font-style="italic" font-weight="400">
+      <font-face-src>
+        <font-face-name name="TimesNewRomanPS-ItalicMT"/>
+      </font-face-src>
+    </font-face>
+    <font-face font-family="Times New Roman" font-size="12" panose-1="2 2 6 3 5 4 5 2 3 4" units-per-em="1000" underline-position="-108.88672" underline-thickness="48.828125" slope="0" x-height="447.2656" cap-height="662.1094" ascent="891.1133" descent="-216.3086" font-weight="400">
+      <font-face-src>
+        <font-face-name name="TimesNewRomanPSMT"/>
+      </font-face-src>
+    </font-face>
+    <font-face font-family="Times New Roman" font-size="8" panose-1="2 2 5 3 5 4 5 9 3 4" units-per-em="1000" underline-position="-108.88672" underline-thickness="48.828125" slope="-2041.624" x-height="430.1758" cap-height="662.1094" ascent="891.1133" descent="-216.3086" font-style="italic" font-weight="400">
+      <font-face-src>
+        <font-face-name name="TimesNewRomanPS-ItalicMT"/>
+      </font-face-src>
+    </font-face>
+  </defs>
+  <metadata> Produced by OmniGraffle 7.18.1\n2020-12-21 18:37:38 +0000</metadata>
+  <g id="Canvas_1" stroke="none" stroke-opacity="1" fill="none" stroke-dasharray="none" fill-opacity="1">
+    <title>Canvas 1</title>
+    <rect fill="white" x="506" y="90" width="514" height="431"/>
+    <g id="Canvas_1_Layer_1">
+      <title>Layer 1</title>
+      <g id="Graphic_22">
+        <rect x="506.4375" y="90" width="513.5" height="430.5" fill="white"/>
+      </g>
+      <g id="Group_23">
+        <g id="Line_12">
+          <line x1="854.5" y1="193.5" x2="854.5" y2="309" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.5,2.0" stroke-width=".5"/>
+        </g>
+        <g id="Graphic_3">
+          <circle cx="758" cy="309" r="150.000239685284" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Line_5">
+          <line x1="580.4" y1="309" x2="935.6" y2="309" marker-end="url(#FilledArrow_Marker)" marker-start="url(#FilledArrow_Marker_2)" stroke="#9a9a9a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Line_6">
+          <line x1="758" y1="131.4" x2="758" y2="486.6" marker-end="url(#FilledArrow_Marker)" marker-start="url(#FilledArrow_Marker_2)" stroke="#9a9a9a" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        </g>
+        <g id="Graphic_7">
+          <text transform="translate(767.5 119)" fill="#9a9a9a">
+            <tspan font-family="Times New Roman" font-size="16" font-style="italic" font-weight="400" fill="#9a9a9a" x="0" y="14">Im</tspan>
+          </text>
+        </g>
+        <g id="Graphic_8">
+          <text transform="translate(934 318.5)" fill="#9a9a9a">
+            <tspan font-family="Times New Roman" font-size="16" font-style="italic" font-weight="400" fill="#9a9a9a" x="0" y="14">Re</tspan>
+          </text>
+        </g>
+        <g id="Line_9">
+          <line x1="758" y1="309.26786" x2="847.2007" y2="202.25673" marker-end="url(#FilledArrow_Marker_3)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        </g>
+        <g id="Graphic_13">
+          <text transform="translate(745.6699 458.5)" fill="#9a9a9a">
+            <tspan font-family="Times New Roman" font-size="12" font-style="italic" font-weight="400" fill="#9a9a9a" x="0" y="11">-i</tspan>
+          </text>
+        </g>
+        <g id="Graphic_14">
+          <text transform="translate(750.666 145.99023)" fill="#9a9a9a">
+            <tspan font-family="Times New Roman" font-size="12" font-style="italic" font-weight="400" fill="#9a9a9a" x="0" y="11">i</tspan>
+          </text>
+        </g>
+        <g id="Graphic_15">
+          <text transform="translate(593.0039 294)" fill="#9a9a9a">
+            <tspan font-family="Times New Roman" font-size="12" font-weight="400" fill="#9a9a9a" x="0" y="11">-1</tspan>
+          </text>
+        </g>
+        <g id="Graphic_16">
+          <text transform="translate(913 294)" fill="#9a9a9a">
+            <tspan font-family="Times New Roman" font-size="12" font-weight="400" fill="#9a9a9a" x="0" y="11">1</tspan>
+          </text>
+        </g>
+        <g id="Graphic_17">
+          <text transform="translate(771.4307 292.5)" fill="black">
+            <tspan font-family="Times New Roman" font-size="12" font-style="italic" font-weight="400" fill="black" x="0" y="11">φ</tspan>
+          </text>
+        </g>
+        <g id="Graphic_18">
+          <text transform="translate(795.5 307)" fill="black">
+            <tspan font-family="Times New Roman" font-size="12" font-weight="400" fill="black" x="0" y="11">cos </tspan>
+            <tspan font-family="Times New Roman" font-size="12" font-style="italic" font-weight="400" fill="black" y="11">φ</tspan>
+          </text>
+        </g>
+        <g id="Graphic_19">
+          <text transform="translate(857.1767 249)" fill="black">
+            <tspan font-family="Times New Roman" font-size="12" font-weight="400" fill="black" x="0" y="11">sin </tspan>
+            <tspan font-family="Times New Roman" font-size="12" font-style="italic" font-weight="400" fill="black" y="11">φ</tspan>
+          </text>
+        </g>
+        <g id="Graphic_20">
+          <text transform="translate(852 177.5)" fill="black">
+            <tspan font-family="Times New Roman" font-size="12" font-style="italic" font-weight="400" fill="black" x="0" y="11">e</tspan>
+            <tspan font-family="Times New Roman" font-size="8" font-style="italic" font-weight="400" fill="black" y="7">iφ</tspan>
+            <tspan font-family="Times New Roman" font-size="12" font-weight="400" fill="black" y="11"> = cos </tspan>
+            <tspan font-family="Times New Roman" font-size="12" font-style="italic" font-weight="400" fill="black" y="11">φ</tspan>
+            <tspan font-family="Times New Roman" font-size="12" font-weight="400" fill="black" y="11"> + </tspan>
+            <tspan font-family="Times New Roman" font-size="12" font-style="italic" font-weight="400" fill="black" y="11">i</tspan>
+            <tspan font-family="Times New Roman" font-size="12" font-weight="400" fill="black" y="11"> sin </tspan>
+            <tspan font-family="Times New Roman" font-size="12" font-style="italic" font-weight="400" fill="black" y="11">φ</tspan>
+          </text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
