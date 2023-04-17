@@ -37,6 +37,33 @@
 
 <div class="post">
   <div class="postTitle">
+    <a href="/archives/2020/5/unfuck-xcode.html">Unfuck Xcode</a>
+  </div>
+  <div class="date">Published May 13, 2020</div>
+  <p>Has Xcode stopped working for you? Builds acting funny? Autocomplete stopped working? You've quit and restarted it, cleaned the build folder, and it's still broken?</p>
+<p>Try running this.</p>
+
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Exiting Xcode&quot;</span>
+osascript<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;quit app &quot;Xcode&quot;&#39;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting DerivedData&quot;</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>~/Library/Developer/Xcode/DerivedData/*
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting llvm module cache&quot;</span>
+rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>getconf<span class="w"> </span>DARWIN_USER_CACHE_DIR<span class="k">)</span><span class="s2">/org.llvm.clang/ModuleCache&quot;</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Relaunching Xcode&quot;</span>
+open<span class="w"> </span>-a<span class="w"> </span>Xcode
+</pre></div>
+
+<div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/6648ef8437d6fe34730ba4841a3d17e1">unfuck-xcode</a></div>
+</div>
+<div class="post">
+  <div class="postTitle">
     <a href="/archives/2020/5/git-revision-info-in-app.html">Git Revision Info in App</a>
   </div>
   <div class="date">Published May 10, 2020</div>

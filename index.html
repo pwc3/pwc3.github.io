@@ -37,6 +37,34 @@
 
 <div class="post">
   <div class="postTitle">
+    <a href="/archives/2023/4/string-data-conversion.html">String-Data Conversion</a>
+  </div>
+  <div class="date">Published April 17, 2023</div>
+  <p>We often need to convert between a <code>String</code> value and a <code>Data</code> value. I have been using the following approach for years to do this conversion:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span> <span class="nf">convert</span><span class="p">(</span><span class="n">from</span> <span class="n">string</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">Data</span><span class="p">?</span> <span class="p">{</span>
+    <span class="n">string</span><span class="p">.</span><span class="n">data</span><span class="p">(</span><span class="n">using</span><span class="p">:</span> <span class="p">.</span><span class="n">utf8</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">convert</span><span class="p">(</span><span class="n">from</span> <span class="n">data</span><span class="p">:</span> <span class="n">Data</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">String</span><span class="p">?</span> <span class="p">{</span>
+    <span class="nb">String</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="p">.</span><span class="n">utf8</span><span class="p">)</span> 
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Note, I'm only using functions here so the return types are explicit. Usually I would just call <code>String.data(using:)</code> or <code>String.init(data:encoding:)</code> directly. The important part is that they both return optionals.</p>
+<p>There is a way to do this without optionals.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span> <span class="nf">convert</span><span class="p">(</span><span class="n">from</span> <span class="n">string</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">Data</span> <span class="p">{</span>
+    <span class="n">Data</span><span class="p">(</span><span class="n">string</span><span class="p">.</span><span class="n">utf8</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">convert</span><span class="p">(</span><span class="n">from</span> <span class="n">data</span><span class="p">:</span> <span class="n">Data</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">String</span> <span class="p">{</span>
+    <span class="nb">String</span><span class="p">(</span><span class="n">decoding</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="k">as</span><span class="p">:</span> <span class="nb">UTF8</span><span class="p">.</span><span class="kc">self</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>The optional-based approach dates all the way back to iOS 2 and Objective-C. The non-optional approach came in around iOS 8 along with Swift. </p>
+</div>
+<div class="post">
+  <div class="postTitle">
     <a href="/archives/2023/4/requiring-optionals.html">Requiring Optionals</a>
   </div>
   <div class="date">Published April 16, 2023</div>
@@ -210,12 +238,6 @@ x + y - |y - x| = x + y - y + x = 2x = 2 \cdot min(x,y)
 <p>\[
 x + y + |y - x| = x + y + y - x = 2y = 2 \cdot max(x, y)
 \]</p>
-<!--
-If \\(x \leq y\\), then \\(|y - x| = y - x\\).
-So \\(x + y - |y - x| = x + y - y + x = 2x = 2 \cdot min(x, y)\\),
-and \\(x + y + |y - x| = x + y + y - x = 2y = 2 \cdot max(x, y)\\).
--->
-
 <p>In both cases, swap \(x\) and \(y\) to prove the formulas for \(x \geq y\).</p>
 </div>
 <div class="post">
@@ -314,33 +336,6 @@ e^{i\pi} + 1 = 0
 <p>The <code>digest(_:)</code> function returns a <code>Digest</code> value that wraps a <code>Data</code> value. Its <code>description</code> property converts the data into a hex-string.</p>
 <p>It supports all of the (non-deprecated) cryptographic hash algorithms currently provided by <code>CommonCrypto</code>: SHA1, SHA224, SHA256, SHA384, and SHA512.</p>
 <p><a href="https://github.com/pwc3/HashAlgorithm">The library is available on Github</a>.</p>
-</div>
-<div class="post">
-  <div class="postTitle">
-    <a href="/archives/2020/5/unfuck-xcode.html">Unfuck Xcode</a>
-  </div>
-  <div class="date">Published May 13, 2020</div>
-  <p>Has Xcode stopped working for you? Builds acting funny? Autocomplete stopped working? You've quit and restarted it, cleaned the build folder, and it's still broken?</p>
-<p>Try running this.</p>
-
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
-
-<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
-
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Exiting Xcode&quot;</span>
-osascript<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;quit app &quot;Xcode&quot;&#39;</span>
-
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting DerivedData&quot;</span>
-rm<span class="w"> </span>-rf<span class="w"> </span>~/Library/Developer/Xcode/DerivedData/*
-
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting llvm module cache&quot;</span>
-rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>getconf<span class="w"> </span>DARWIN_USER_CACHE_DIR<span class="k">)</span><span class="s2">/org.llvm.clang/ModuleCache&quot;</span>
-
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Relaunching Xcode&quot;</span>
-open<span class="w"> </span>-a<span class="w"> </span>Xcode
-</pre></div>
-
-<div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/6648ef8437d6fe34730ba4841a3d17e1">unfuck-xcode</a></div>
 </div>
 
 <div class="paginator">
