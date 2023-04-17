@@ -6,9 +6,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Paul Calnan's Blog</title>
-    <link rel="stylesheet" href="./theme/css/main.css">
-    <link rel="stylesheet" href="./theme/css/xcode.css">
+    <title>Paul Calnan's Blog: Requiring Optionals</title>
+    <link rel="stylesheet" href="../../../theme/css/main.css">
+    <link rel="stylesheet" href="../../../theme/css/xcode.css">
 
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
@@ -20,14 +20,14 @@
         <table width="100%" border="0" cellpadding="0">
           <tr>
             <td class="headerTitle">
-              <a href="." style="text-decoration: none;">Paul Calnan's Blog</a>
+              <a href="../../.." style="text-decoration: none;">Paul Calnan's Blog</a>
             </td>
           </tr>
           <tr>
             <td class="headerLinks">
-<a href="./archives.html">Archives</a> |
-<a href="./tags.html">Tags</a> |
-<a href="./pages/about.html">About</a> |
+<a href="../../../archives.html">Archives</a> |
+<a href="../../../tags.html">Tags</a> |
+<a href="../../../pages/about.html">About</a> |
 <a href="https://github.com/pwc3/">Github</a> |
 <a href="https://mastodon.social/@pwc3">Mastodon</a>            </td>
           </tr>
@@ -180,168 +180,13 @@ note: found this candidate
 
 <p>This isn't the end of the world — we generally don't deal with optional errors. But I don't like leaving this sort of rough edge on an API. So I think I'll stick with my original approach: <code>Optional.unwrap(orThrow:)</code> and <code>Optional.unwrap(or:)</code>.</p>
 </div>
-<div class="post">
-  <div class="postTitle">
-    <a href="/archives/2020/12/formulas-for-min-and-max.html">Formulas for min and max</a>
-  </div>
-  <div class="date">Published December 21, 2020</div>
-  <p>I have been reading <a href="https://www.amazon.com/gp/product/0914098918/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0914098918&amp;linkCode=as2&amp;tag=paulcalnancom-20&amp;linkId=f2d21bf0acfd1505d3b52a2f86de4339">a Calculus book</a> recently and came across formulas for <em>min</em> and <em>max</em>:</p>
-<p>\[
-\begin{align}
-min(x, y) = \frac{x + y - |y - x|}{2} \\
-max(x, y) = \frac{x + y + |y - x|}{2}
-\end{align}
-\]</p>
-<p>Here \(\frac{x + y}{2}\) is the average of the two numbers or the midpoint between the two on the number line.</p>
-<p>Also \(\frac{|y - x|}{2}\) is half the distance between y and x. Adding it to the midpoint gives the maximum (rightmost) value and subtracting it from the midpoint gives the minimum (leftmost) value.</p>
-<p>This is particularly interesting coming from a programming background where:</p>
-<div class="highlight"><pre><span></span><code><span class="nf">min</span><span class="p">(</span><span class="nv">x</span><span class="p">,</span><span class="w"> </span><span class="nv">y</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span>?<span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nv">y</span>
-<span class="nf">max</span><span class="p">(</span><span class="nv">x</span><span class="p">,</span><span class="w"> </span><span class="nv">y</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span>?<span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nv">y</span>
-</code></pre></div>
 
-<p>I never thought of coming up with a non-procedural formula for either of these.</p>
-<p>We can prove that \(min(x, y) = \frac{x + y - |y - x|}{2}\) and \(max(x, y) = \frac{x + y + |y - x|}{2}\) as follows:</p>
-<p>If \(x \leq y\), then \(|y - x| = y - x\).
-So \(x + y - |y - x| = x + y - y + x = 2x = 2 \cdot min(x, y)\),
-and \(x + y + |y - x| = x + y + y - x = 2y = 2 \cdot max(x, y)\).</p>
-<p>In both cases, swap \(x\) and \(y\) to prove the formulas for \(x \geq y\).</p>
-</div>
-<div class="post">
-  <div class="postTitle">
-    <a href="/archives/2020/12/eulers-identity.html">Euler's Identity</a>
-  </div>
-  <div class="date">Published December 21, 2020</div>
-  <p><a href="https://en.wikipedia.org/wiki/Euler%27s_formula">Euler's formula</a> states that for any real number \(x\):</p>
-<p>\[
-e^{ix} = \cos x + i \sin x
-\]</p>
-<p>When \(x = \pi\), Euler's formula evaluates to:</p>
-<p>\[
-e^{i\pi} + 1 = 0
-\]</p>
-<p>This is known as <a href="https://en.wikipedia.org/wiki/Euler%27s_identity">Euler's identity</a> and it links five fundamental mathematical constants (\(\pi\), \(e\), \(i\), \(0\), and \(1\)) in a beautifully simple equation. Richard Feynman called the equation "the most remarkable formula in mathematics."</p>
-<p>The formula can be interpreted as saying that the function \(e^{i\phi}\) is a unit complex number, i.e. it traces out the unit circle in the complex plane as \(\phi\) ranges through the real numbers.</p>
-<p><img alt="" src="./archives/2020/12/Images/eulers-formula.svg"></p>
-<p>We can derive Euler's formula from the Maclaurin series expansions of \(\sin x\), \(\cos x\), and \(e^x\):</p>
-<p>\[
-\begin{align}
-\sin x &amp;= \sum_{n=0}^\infty \frac{(-1)^n}{(2n+1)!} x^{2n+1} \\
-&amp;= x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots \\
-\cos x &amp;= \sum_{n=0}^\infty \frac{(-1)^n}{(2n)!} x^{2n} \\
-&amp;= 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} + \cdots \\
-e^x &amp;= \sum_{n = 0}^{\infty} \frac{x^n}{n!} \\
-&amp;= 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \cdots
-\end{align}
-\]</p>
-<p>Thus:</p>
-<p>\[
-\begin{align}
-e^{ix} &amp;= \sum_{n = 0}^{\infty} \frac{(ix)^n}{n!} \\
-e^{ix} &amp;= 1 + ix + \frac{(ix)^2}{2!} + \frac{(ix)^3}{3!} + \frac{(ix)^4}{4!} + \frac{(ix)^5}{5!} + \frac{(ix)^6}{6!} + \frac{(ix)^7}{7!} + \cdots \\
-&amp;= 1 + ix - \frac{x^2}{2!} - \frac{ix^3}{3!} + \frac{x^4}{4!} + \frac{ix^5}{5!} - \frac{x^6}{6!} - \frac{ix^7}{7!} + \cdots \\
-&amp;= \left( 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} - \cdots \right) + \left( ix - \frac{ix^3}{3!} + \frac{ix^5}{5!} - \frac{ix^7}{7!} + \cdots \right) \\
-&amp;= \left( 1 - \frac{x^2}{2!} + \frac{x^4}{4!} - \frac{x^6}{6!} - \cdots \right) + i\left( x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!} + \cdots \right) \\
-&amp;= \cos x + i\sin x
-\end{align}
-\]</p>
-<p>This yields Euler's identity. Substitute \(\pi\) for \(x\). Since \(\cos \pi = -1\) and \(\sin \pi = 0\), it follows that:</p>
-<p>\[
-e^{i\pi} = -1 + 0i
-\]</p>
-<p>or</p>
-<p>\[
-e^{i\pi} + 1 = 0
-\]</p>
-</div>
-<div class="post">
-  <div class="postTitle">
-    <a href="/archives/2020/5/computing-cryptographic-hashes-in-swift.html">Computing Cryptographic Hashes in Swift</a>
-  </div>
-  <div class="date">Published May 13, 2020</div>
-  <p>Computing cryptographic hashes in Swift has gotten easier in recent times. Prior to Xcode 10, it used to be difficult to import the <code>CommonCrypto</code> library which did the computation. Xcode 10 added a module for that library, making it easier to do the import. But the API still looks like a C API. Using the library directly requires you to write something like this:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">import</span> <span class="nc">CommonCrypto</span>
-<span class="kd">import</span> <span class="nc">Foundation</span>
-
-<span class="c1">// Compute the digest of this string:</span>
-<span class="kd">let</span> <span class="nv">messageString</span> <span class="p">=</span> <span class="s">&quot;The quick brown fox jumps over the lazy dog&quot;</span>
-
-<span class="c1">// Convert the string to a byte array.</span>
-<span class="kd">let</span> <span class="nv">messageData</span> <span class="p">=</span> <span class="n">Data</span><span class="p">(</span><span class="n">messageString</span><span class="p">.</span><span class="n">utf8</span><span class="p">)</span>
-
-<span class="c1">// Compute the hash using CommonCrypto.</span>
-<span class="kd">var</span> <span class="nv">digestData</span> <span class="p">=</span> <span class="n">Data</span><span class="p">(</span><span class="bp">count</span><span class="p">:</span> <span class="nb">Int</span><span class="p">(</span><span class="n">CC_SHA224_DIGEST_LENGTH</span><span class="p">))</span>
-<span class="n">digestData</span><span class="p">.</span><span class="n">withUnsafeMutableBytes</span> <span class="p">{</span> <span class="p">(</span><span class="n">digestBuffer</span><span class="p">:</span> <span class="n">UnsafeMutableRawBufferPointer</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Void</span> <span class="k">in</span>
-    <span class="n">messageData</span><span class="p">.</span><span class="n">withUnsafeBytes</span> <span class="p">{</span> <span class="p">(</span><span class="n">messageBuffer</span><span class="p">:</span> <span class="n">UnsafeRawBufferPointer</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="nb">Void</span> <span class="k">in</span>
-        <span class="kc">_</span> <span class="p">=</span> <span class="n">CC_SHA224</span><span class="p">(</span><span class="n">messageBuffer</span><span class="p">.</span><span class="n">baseAddress</span><span class="p">,</span>
-                      <span class="n">CC_LONG</span><span class="p">(</span><span class="n">messageBuffer</span><span class="p">.</span><span class="bp">count</span><span class="p">),</span>
-                      <span class="n">digestBuffer</span><span class="p">.</span><span class="n">baseAddress</span><span class="p">?.</span><span class="n">assumingMemoryBound</span><span class="p">(</span><span class="n">to</span><span class="p">:</span> <span class="nb">UInt8</span><span class="p">.</span><span class="kc">self</span><span class="p">))</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// Convert the digestData byte buffer into a hex string.</span>
-<span class="kd">let</span> <span class="nv">digestString</span> <span class="p">=</span> <span class="n">digestData</span><span class="p">.</span><span class="bp">map</span> <span class="p">{</span> <span class="nb">String</span><span class="p">(</span><span class="n">format</span><span class="p">:</span> <span class="s">&quot;%02hhx&quot;</span><span class="p">,</span> <span class="nv">$0</span><span class="p">)</span> <span class="p">}.</span><span class="n">joined</span><span class="p">()</span>
-
-<span class="c1">// prints 730e109bd7a8a32b1cb9d9a09aa2325d2430587ddbc0c38bad911525</span>
-<span class="bp">print</span><span class="p">(</span><span class="n">digestString</span><span class="p">)</span>
-</code></pre></div>
-
-<p>That's a fair amount of boilerplate. The meat of that code &mdash; the <code>withUnsafeMutableBytes</code> and <code>withUnsafeBytes</code> calls &mdash; changed between Swift versions. I had to rewrite that code a few times to eliminate new compiler warnings and deprecations.</p>
-<p>Rather than deal with that in production code, I wrote a small <a href="https://github.com/pwc3/HashAlgorithm">Swift library called <code>HashAlgorithm</code></a> to simplify the process.</p>
-<p>Using it is pretty simple. Instead of the code above, you just do this:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">import</span> <span class="nc">Foundation</span>
-<span class="kd">import</span> <span class="nc">HashAlgorithm</span>
-
-<span class="c1">// Compute the digest of this string:</span>
-<span class="kd">let</span> <span class="nv">messageString</span> <span class="p">=</span> <span class="s">&quot;The quick brown fox jumps over the lazy dog&quot;</span>
-<span class="kd">let</span> <span class="nv">digest</span> <span class="p">=</span> <span class="n">HashAlgorithm</span><span class="p">.</span><span class="n">SHA224</span><span class="p">.</span><span class="n">digest</span><span class="p">(</span><span class="n">messageString</span><span class="p">)</span>
-
-<span class="c1">// prints 730e109bd7a8a32b1cb9d9a09aa2325d2430587ddbc0c38bad911525</span>
-<span class="bp">print</span><span class="p">(</span><span class="n">digest</span><span class="p">)</span>
-</code></pre></div>
-
-<p>The <code>digest(_:)</code> function returns a <code>Digest</code> value that wraps a <code>Data</code> value. Its <code>description</code> property converts the data into a hex-string.</p>
-<p>It supports all of the (non-deprecated) cryptographic hash algorithms currently provided by <code>CommonCrypto</code>: SHA1, SHA224, SHA256, SHA384, and SHA512.</p>
-<p><a href="https://github.com/pwc3/HashAlgorithm">The library is available on Github</a>.</p>
-</div>
-<div class="post">
-  <div class="postTitle">
-    <a href="/archives/2020/5/unfuck-xcode.html">Unfuck Xcode</a>
-  </div>
-  <div class="date">Published May 13, 2020</div>
-  <p>Has Xcode stopped working for you? Builds acting funny? Autocomplete stopped working? You've quit and restarted it, cleaned the build folder, and it's still broken?</p>
-<p>Try running this.</p>
-
-<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
-
-<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
-
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Exiting Xcode&quot;</span>
-osascript<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;quit app &quot;Xcode&quot;&#39;</span>
-
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting DerivedData&quot;</span>
-rm<span class="w"> </span>-rf<span class="w"> </span>~/Library/Developer/Xcode/DerivedData/*
-
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting llvm module cache&quot;</span>
-rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>getconf<span class="w"> </span>DARWIN_USER_CACHE_DIR<span class="k">)</span><span class="s2">/org.llvm.clang/ModuleCache&quot;</span>
-
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Relaunching Xcode&quot;</span>
-open<span class="w"> </span>-a<span class="w"> </span>Xcode
-</pre></div>
-
-<div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/6648ef8437d6fe34730ba4841a3d17e1">unfuck-xcode</a></div>
-</div>
-
-<div class="paginator">
-
-
-    <a href="./index2.html">Older Posts</a>
-</div>
 
       <div id="copyright">
         <center>
-<a href="./archives.html">Archives</a> |
-<a href="./tags.html">Tags</a> |
-<a href="./pages/about.html">About</a> |
+<a href="../../../archives.html">Archives</a> |
+<a href="../../../tags.html">Tags</a> |
+<a href="../../../pages/about.html">About</a> |
 <a href="https://github.com/pwc3/">Github</a> |
 <a href="https://mastodon.social/@pwc3">Mastodon</a>          <br/><br/>
           &copy; 2012-2023 Paul Calnan. All rights reserved.

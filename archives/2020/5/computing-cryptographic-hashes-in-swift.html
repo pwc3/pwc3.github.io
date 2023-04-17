@@ -28,7 +28,8 @@
 <a href="../../../archives.html">Archives</a> |
 <a href="../../../tags.html">Tags</a> |
 <a href="../../../pages/about.html">About</a> |
-<a href="https://github.com/pwc3/">Github</a>            </td>
+<a href="https://github.com/pwc3/">Github</a> |
+<a href="https://mastodon.social/@pwc3">Mastodon</a>            </td>
           </tr>
         </table>
       </div>
@@ -66,7 +67,6 @@
 <span class="bp">print</span><span class="p">(</span><span class="n">digestString</span><span class="p">)</span>
 </code></pre></div>
 
-
 <p>That's a fair amount of boilerplate. The meat of that code &mdash; the <code>withUnsafeMutableBytes</code> and <code>withUnsafeBytes</code> calls &mdash; changed between Swift versions. I had to rewrite that code a few times to eliminate new compiler warnings and deprecations.</p>
 <p>Rather than deal with that in production code, I wrote a small <a href="https://github.com/pwc3/HashAlgorithm">Swift library called <code>HashAlgorithm</code></a> to simplify the process.</p>
 <p>Using it is pretty simple. Instead of the code above, you just do this:</p>
@@ -81,7 +81,6 @@
 <span class="bp">print</span><span class="p">(</span><span class="n">digest</span><span class="p">)</span>
 </code></pre></div>
 
-
 <p>The <code>digest(_:)</code> function returns a <code>Digest</code> value that wraps a <code>Data</code> value. Its <code>description</code> property converts the data into a hex-string.</p>
 <p>It supports all of the (non-deprecated) cryptographic hash algorithms currently provided by <code>CommonCrypto</code>: SHA1, SHA224, SHA256, SHA384, and SHA512.</p>
 <p><a href="https://github.com/pwc3/HashAlgorithm">The library is available on Github</a>.</p>
@@ -93,8 +92,9 @@
 <a href="../../../archives.html">Archives</a> |
 <a href="../../../tags.html">Tags</a> |
 <a href="../../../pages/about.html">About</a> |
-<a href="https://github.com/pwc3/">Github</a>          <br/><br/>
-          &copy; 2012-2020 Paul Calnan. All rights reserved.
+<a href="https://github.com/pwc3/">Github</a> |
+<a href="https://mastodon.social/@pwc3">Mastodon</a>          <br/><br/>
+          &copy; 2012-2023 Paul Calnan. All rights reserved.
         </center>
       </div>
     </div>

@@ -28,7 +28,8 @@
 <a href="../../../archives.html">Archives</a> |
 <a href="../../../tags.html">Tags</a> |
 <a href="../../../pages/about.html">About</a> |
-<a href="https://github.com/pwc3/">Github</a>            </td>
+<a href="https://github.com/pwc3/">Github</a> |
+<a href="https://mastodon.social/@pwc3">Mastodon</a>            </td>
           </tr>
         </table>
       </div>
@@ -49,10 +50,9 @@ max(x, y) = \frac{x + y + |y - x|}{2}
 <p>Here \(\frac{x + y}{2}\) is the average of the two numbers or the midpoint between the two on the number line.</p>
 <p>Also \(\frac{|y - x|}{2}\) is half the distance between y and x. Adding it to the midpoint gives the maximum (rightmost) value and subtracting it from the midpoint gives the minimum (leftmost) value.</p>
 <p>This is particularly interesting coming from a programming background where:</p>
-<div class="highlight"><pre><span></span><code><span class="err">min(x, y) := x &lt;= y ? x : y</span>
-<span class="err">max(x, y) := x &gt;= y ? x : y</span>
+<div class="highlight"><pre><span></span><code><span class="nf">min</span><span class="p">(</span><span class="nv">x</span><span class="p">,</span><span class="w"> </span><span class="nv">y</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span>?<span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nv">y</span>
+<span class="nf">max</span><span class="p">(</span><span class="nv">x</span><span class="p">,</span><span class="w"> </span><span class="nv">y</span><span class="p">)</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nv">y</span><span class="w"> </span>?<span class="w"> </span><span class="nv">x</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nv">y</span>
 </code></pre></div>
-
 
 <p>I never thought of coming up with a non-procedural formula for either of these.</p>
 <p>We can prove that \(min(x, y) = \frac{x + y - |y - x|}{2}\) and \(max(x, y) = \frac{x + y + |y - x|}{2}\) as follows:</p>
@@ -68,8 +68,9 @@ and \(x + y + |y - x| = x + y + y - x = 2y = 2 \cdot max(x, y)\).</p>
 <a href="../../../archives.html">Archives</a> |
 <a href="../../../tags.html">Tags</a> |
 <a href="../../../pages/about.html">About</a> |
-<a href="https://github.com/pwc3/">Github</a>          <br/><br/>
-          &copy; 2012-2020 Paul Calnan. All rights reserved.
+<a href="https://github.com/pwc3/">Github</a> |
+<a href="https://mastodon.social/@pwc3">Mastodon</a>          <br/><br/>
+          &copy; 2012-2023 Paul Calnan. All rights reserved.
         </center>
       </div>
     </div>

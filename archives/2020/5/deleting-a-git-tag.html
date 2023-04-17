@@ -28,7 +28,8 @@
 <a href="../../../archives.html">Archives</a> |
 <a href="../../../tags.html">Tags</a> |
 <a href="../../../pages/about.html">About</a> |
-<a href="https://github.com/pwc3/">Github</a>            </td>
+<a href="https://github.com/pwc3/">Github</a> |
+<a href="https://mastodon.social/@pwc3">Mastodon</a>            </td>
           </tr>
         </table>
       </div>
@@ -41,43 +42,40 @@
   <div class="date">Published May 10, 2020</div>
   <p>I can never remember the commands to delete a Git tag. It's one of those things I don't do frequently enough to remember &mdash; I always have to look it up.</p>
 <p>To delete a local tag called <code>TAGNAME</code>:</p>
-<div class="highlight"><pre><span></span><code>$ git tag --delete TAGNAME
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>tag<span class="w"> </span>--delete<span class="w"> </span>TAGNAME
 </code></pre></div>
-
 
 <p>To delete a remote tag called <code>TAGNAME</code>:</p>
-<div class="highlight"><pre><span></span><code>$ git push --delete origin TAGNAME
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>push<span class="w"> </span>--delete<span class="w"> </span>origin<span class="w"> </span>TAGNAME
 </code></pre></div>
-
 
 <p>But rather than have to enter in two commands, I wrote a script that combines them:</p>
 
 <div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
 
-<span class="nb">set</span> -euo pipefail
+<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
 
 <span class="nv">E_BADARGS</span><span class="o">=</span><span class="m">85</span>
-<span class="k">if</span> <span class="o">[</span> <span class="nv">$#</span> -ne <span class="m">1</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="k">$(</span>basename <span class="nv">$0</span><span class="k">)</span><span class="s2"> tag-name&quot;</span>
-    <span class="nb">exit</span> <span class="nv">$E_BADARGS</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="nv">$#</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Usage: </span><span class="k">$(</span>basename<span class="w"> </span><span class="nv">$0</span><span class="k">)</span><span class="s2"> tag-name&quot;</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="nv">$E_BADARGS</span>
 <span class="k">fi</span>
 
 <span class="nv">tagname</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
 
 <span class="c1"># Delete the local tag</span>
-<span class="nb">echo</span> <span class="s2">&quot;Deleting local tag </span><span class="nv">$tagname</span><span class="s2">&quot;</span>
-git tag --delete <span class="nv">$tagname</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting local tag </span><span class="nv">$tagname</span><span class="s2">&quot;</span>
+git<span class="w"> </span>tag<span class="w"> </span>--delete<span class="w"> </span><span class="nv">$tagname</span>
 
 <span class="c1"># Delete the remote tag</span>
-<span class="nb">echo</span> <span class="s2">&quot;Deleting remote tag </span><span class="nv">$tagname</span><span class="s2">&quot;</span>
-git push --delete origin <span class="nv">$tagname</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting remote tag </span><span class="nv">$tagname</span><span class="s2">&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>--delete<span class="w"> </span>origin<span class="w"> </span><span class="nv">$tagname</span>
 </pre></div>
 
 <div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/28c0afebc055a13c99e5b6a1be73a330">git-rmtag</a></div>
 <p>That script is saved in my <code>~/bin</code> directory under the name <code>git-rmtag</code>. Using that naming convention, you can run it like this:</p>
-<div class="highlight"><pre><span></span><code>$ git rmtag TAGNAME
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>rmtag<span class="w"> </span>TAGNAME
 </code></pre></div>
-
 
 <p>and it will delete the local and remote tags.</p>
 </div>
@@ -88,8 +86,9 @@ git push --delete origin <span class="nv">$tagname</span>
 <a href="../../../archives.html">Archives</a> |
 <a href="../../../tags.html">Tags</a> |
 <a href="../../../pages/about.html">About</a> |
-<a href="https://github.com/pwc3/">Github</a>          <br/><br/>
-          &copy; 2012-2020 Paul Calnan. All rights reserved.
+<a href="https://github.com/pwc3/">Github</a> |
+<a href="https://mastodon.social/@pwc3">Mastodon</a>          <br/><br/>
+          &copy; 2012-2023 Paul Calnan. All rights reserved.
         </center>
       </div>
     </div>

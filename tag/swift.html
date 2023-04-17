@@ -28,12 +28,158 @@
 <a href="../archives.html">Archives</a> |
 <a href="../tags.html">Tags</a> |
 <a href="../pages/about.html">About</a> |
-<a href="https://github.com/pwc3/">Github</a>            </td>
+<a href="https://github.com/pwc3/">Github</a> |
+<a href="https://mastodon.social/@pwc3">Mastodon</a>            </td>
           </tr>
         </table>
       </div>
 
 
+<div class="post">
+  <div class="postTitle">
+    <a href="/archives/2023/4/requiring-optionals.html">Requiring Optionals</a>
+  </div>
+  <div class="date">Published April 16, 2023</div>
+  <p>On the last two projects I worked on, I have used this extension on <code>Optional</code>:</p>
+
+<div class="highlight"><pre><span></span><span class="kd">import</span> <span class="nc">Foundation</span>
+
+<span class="kd">extension</span> <span class="nc">Optional</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">unwrap</span><span class="p">(</span><span class="n">orThrow</span> <span class="n">error</span><span class="p">:</span> <span class="kr">@autoclosure</span> <span class="p">()</span> <span class="p">-&gt;</span> <span class="n">Error</span><span class="p">)</span> <span class="kr">throws</span> <span class="p">-&gt;</span> <span class="n">Wrapped</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="kd">let</span> <span class="nv">value</span> <span class="p">=</span> <span class="kc">self</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="n">error</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">unwrap</span><span class="p">(</span><span class="n">or</span> <span class="n">fallback</span><span class="p">:</span> <span class="n">Wrapped</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">Wrapped</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="kd">let</span> <span class="nv">value</span> <span class="p">=</span> <span class="kc">self</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">fallback</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/5b4c0fd7257b764034ed8d8287165e89">Optional+Require.swift</a></div>
+<p>The <code>unwrap(or:)</code> function is equivalent to, and more verbose than, the <code>??</code> operator. However, I find it works well in a chain of function calls. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span> <span class="nf">fetchRecord</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="nb">String</span><span class="p">)</span> <span class="k">async</span> <span class="kr">throws</span> <span class="p">-&gt;</span> <span class="n">Record</span> <span class="p">{</span>
+    <span class="n">Record</span><span class="p">(</span><span class="n">fragment</span><span class="p">:</span>
+        <span class="k">try</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="n">RecordQuery</span><span class="p">(</span><span class="n">id</span><span class="p">:</span> <span class="n">id</span><span class="p">))</span>
+            <span class="p">.</span><span class="n">record</span>
+            <span class="p">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">orThrow</span><span class="p">:</span> <span class="n">ServiceError</span><span class="p">.</span><span class="n">notFound</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">fragments</span>
+            <span class="p">.</span><span class="n">recordFragment</span>
+    <span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">func</span> <span class="nf">fetchRecords</span><span class="p">()</span> <span class="k">async</span> <span class="kr">throws</span> <span class="p">-&gt;</span> <span class="p">[</span><span class="n">Record</span><span class="p">]</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="k">await</span> <span class="n">client</span><span class="p">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">query</span><span class="p">:</span> <span class="n">RecordsQuery</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">records</span>
+        <span class="p">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">or</span><span class="p">:</span> <span class="p">[])</span>
+        <span class="p">.</span><span class="bp">map</span> <span class="p">{</span>
+            <span class="nv">$0</span><span class="p">.</span><span class="n">fragments</span><span class="p">.</span><span class="n">recordFragment</span>
+        <span class="p">}</span>
+        <span class="p">.</span><span class="bp">map</span> <span class="p">{</span>
+            <span class="n">Record</span><span class="p">(</span><span class="n">fragment</span><span class="p">:</span> <span class="nv">$0</span><span class="p">)</span>
+        <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This lets me succinctly express a series of operations and transformations in a style that is similar to what you would write using Combine.</p>
+<p>Usually, I would stop there. But I was wondering if I could merge the two functions. Something like this:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">extension</span> <span class="nc">Optional</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">unwrap</span><span class="p">(</span><span class="n">or</span> <span class="n">fallback</span><span class="p">:</span> <span class="kr">@autoclosure</span> <span class="p">()</span> <span class="kr">throws</span> <span class="p">-&gt;</span> <span class="n">Wrapped</span><span class="p">)</span> <span class="kr">throws</span> <span class="p">-&gt;</span> <span class="n">Wrapped</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="kd">let</span> <span class="nv">value</span> <span class="p">=</span> <span class="kc">self</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">try</span> <span class="n">fallback</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>That allows us to write this, just as before:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span> <span class="nv">value</span><span class="p">:</span> <span class="nb">String</span><span class="p">?</span> <span class="p">=</span> <span class="kc">nil</span>
+<span class="bp">print</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">or</span><span class="p">:</span> <span class="s">&quot;nothing&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>I wanted to be able also to write this, but it doesn't compile:</p>
+<div class="highlight"><pre><span></span><code><span class="k">try</span> <span class="bp">print</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">or</span><span class="p">:</span> <span class="k">throw</span> <span class="n">ServiceError</span><span class="p">.</span><span class="n">notFound</span><span class="p">))</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>error: expected expression in list of expressions
+try print(value.unwrap(or: throw SomeError()))
+                           ^
+</code></pre></div>
+
+<p>Why doesn't that work?</p>
+<p>I'm trying to pass <code>throw SomeError()</code> as an autoclosure. This is what the <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/closures/#Autoclosures">Swift Programming Language book</a> has to say about autoclosures:</p>
+<blockquote>
+<p>An autoclosure is a closure that’s automatically created to wrap an expression that’s being passed as an argument to a function. It doesn’t take any arguments, and when it’s called, it returns the value of the expression that’s wrapped inside of it. This syntactic convenience lets you omit braces around a function’s parameter by writing a normal expression instead of an explicit closure.</p>
+</blockquote>
+<p>So why can't we pass <code>throw SomeError()</code> to as an autoclosure? It all comes down to the difference between a statement and an expression.</p>
+<p>As a refresher:</p>
+<blockquote>
+<p>An <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/expressions">expression</a> lets you access, modify, and assign values. In Swift, there are four kinds of expressions: prefix expressions, infix expressions, primary expressions, and postfix expressions. <strong>Evaluating an expression returns a value, causes a side effect, or both.</strong></p>
+<p>A <a href="https://docs.swift.org/swift-book/documentation/the-swift-programming-language/statements">statement</a> groups expressions and controls the flow of execution. In Swift, there are three kinds of statements: simple statements, compiler control statements, and control flow statements.</p>
+</blockquote>
+<p>Basically, an expression evaluates to a value and a statement does not. <code>throw SomeError()</code> is a statement — specifically, a control flow statement. It does not evaluate to a value, so we can't pass it as an autoclosure.</p>
+<p>Maybe we could do this with an overload. Let's try this:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">extension</span> <span class="nc">Optional</span> <span class="p">{</span>
+    <span class="kd">func</span> <span class="nf">unwrap</span><span class="p">(</span><span class="n">or</span> <span class="n">error</span><span class="p">:</span> <span class="kr">@autoclosure</span> <span class="p">()</span> <span class="p">-&gt;</span> <span class="n">Error</span><span class="p">)</span> <span class="kr">throws</span> <span class="p">-&gt;</span> <span class="n">Wrapped</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="kd">let</span> <span class="nv">value</span> <span class="p">=</span> <span class="kc">self</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">throw</span> <span class="n">error</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="p">}</span>
+
+    <span class="kd">func</span> <span class="nf">unwrap</span><span class="p">(</span><span class="n">or</span> <span class="n">fallback</span><span class="p">:</span> <span class="n">Wrapped</span><span class="p">)</span> <span class="p">-&gt;</span> <span class="n">Wrapped</span> <span class="p">{</span>
+        <span class="k">guard</span> <span class="kd">let</span> <span class="nv">value</span> <span class="p">=</span> <span class="kc">self</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">fallback</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">value</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>So now we have the same function name, <code>unwrap(or:)</code>, that we can call in either of these ways:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span> <span class="nv">value</span><span class="p">:</span> <span class="nb">String</span><span class="p">?</span> <span class="p">=</span> <span class="kc">nil</span>
+
+<span class="k">do</span> <span class="p">{</span>
+    <span class="bp">print</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">or</span><span class="p">:</span> <span class="s">&quot;nothing&quot;</span><span class="p">)</span>
+    <span class="k">try</span> <span class="bp">print</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">or</span><span class="p">:</span> <span class="n">ServiceError</span><span class="p">.</span><span class="n">notFound</span><span class="p">))</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">{</span>
+    <span class="bp">print</span><span class="p">(</span><span class="s">&quot;Error: </span><span class="si">\(</span><span class="n">error</span><span class="si">)</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>This works as expected. It prints:</p>
+<div class="highlight"><pre><span></span><code>nothing
+Error: notFound
+</code></pre></div>
+
+<p>Things get weird, though, when we deal with optional errors:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span> <span class="nv">error</span><span class="p">:</span> <span class="n">Error</span><span class="p">?</span> <span class="p">=</span> <span class="kc">nil</span>
+<span class="bp">print</span><span class="p">(</span><span class="n">error</span><span class="p">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">or</span><span class="p">:</span> <span class="n">ServiceError</span><span class="p">.</span><span class="n">notFound</span><span class="p">)</span>
+</code></pre></div>
+
+<p>This fails to compile with this error:</p>
+<div class="highlight"><pre><span></span><code>error: ambiguous use of &#39;unwrap(or:)&#39;
+print(error.unwrap(or: Fail()))
+      ^
+
+note: found this candidate
+    func unwrap(or error: @autoclosure () -&gt; Error) throws -&gt; Wrapped {
+         ^
+
+note: found this candidate
+    func unwrap(or fallback: Wrapped) -&gt; Wrapped {
+         ^
+</code></pre></div>
+
+<p>This isn't the end of the world — we generally don't deal with optional errors. But I don't like leaving this sort of rough edge on an API. So I think I'll stick with my original approach: <code>Optional.unwrap(orThrow:)</code> and <code>Optional.unwrap(or:)</code>.</p>
+</div>
 <div class="post">
   <div class="postTitle">
     <a href="/archives/2020/5/computing-cryptographic-hashes-in-swift.html">Computing Cryptographic Hashes in Swift</a>
@@ -66,7 +212,6 @@
 <span class="bp">print</span><span class="p">(</span><span class="n">digestString</span><span class="p">)</span>
 </code></pre></div>
 
-
 <p>That's a fair amount of boilerplate. The meat of that code &mdash; the <code>withUnsafeMutableBytes</code> and <code>withUnsafeBytes</code> calls &mdash; changed between Swift versions. I had to rewrite that code a few times to eliminate new compiler warnings and deprecations.</p>
 <p>Rather than deal with that in production code, I wrote a small <a href="https://github.com/pwc3/HashAlgorithm">Swift library called <code>HashAlgorithm</code></a> to simplify the process.</p>
 <p>Using it is pretty simple. Instead of the code above, you just do this:</p>
@@ -80,7 +225,6 @@
 <span class="c1">// prints 730e109bd7a8a32b1cb9d9a09aa2325d2430587ddbc0c38bad911525</span>
 <span class="bp">print</span><span class="p">(</span><span class="n">digest</span><span class="p">)</span>
 </code></pre></div>
-
 
 <p>The <code>digest(_:)</code> function returns a <code>Digest</code> value that wraps a <code>Data</code> value. Its <code>description</code> property converts the data into a hex-string.</p>
 <p>It supports all of the (non-deprecated) cryptographic hash algorithms currently provided by <code>CommonCrypto</code>: SHA1, SHA224, SHA256, SHA384, and SHA512.</p>
@@ -96,19 +240,19 @@
 
 <div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
 
-<span class="nb">set</span> -euo pipefail
+<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
 
-<span class="nb">echo</span> <span class="s2">&quot;Exiting Xcode&quot;</span>
-osascript -e <span class="s1">&#39;quit app &quot;Xcode&quot;&#39;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Exiting Xcode&quot;</span>
+osascript<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;quit app &quot;Xcode&quot;&#39;</span>
 
-<span class="nb">echo</span> <span class="s2">&quot;Deleting DerivedData&quot;</span>
-rm -rf ~/Library/Developer/Xcode/DerivedData/*
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting DerivedData&quot;</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>~/Library/Developer/Xcode/DerivedData/*
 
-<span class="nb">echo</span> <span class="s2">&quot;Deleting llvm module cache&quot;</span>
-rm -rf <span class="s2">&quot;</span><span class="k">$(</span>getconf DARWIN_USER_CACHE_DIR<span class="k">)</span><span class="s2">/org.llvm.clang/ModuleCache&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting llvm module cache&quot;</span>
+rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>getconf<span class="w"> </span>DARWIN_USER_CACHE_DIR<span class="k">)</span><span class="s2">/org.llvm.clang/ModuleCache&quot;</span>
 
-<span class="nb">echo</span> <span class="s2">&quot;Relaunching Xcode&quot;</span>
-open -a Xcode
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Relaunching Xcode&quot;</span>
+open<span class="w"> </span>-a<span class="w"> </span>Xcode
 </pre></div>
 
 <div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/6648ef8437d6fe34730ba4841a3d17e1">unfuck-xcode</a></div>
@@ -131,9 +275,9 @@ open -a Xcode
 
 <div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
 
-<span class="nb">set</span> -euo pipefail
+<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
 
-cat <span class="s">&lt;&lt;SWIFT</span>
+cat<span class="w"> </span><span class="s">&lt;&lt;SWIFT</span>
 <span class="s">//</span>
 <span class="s">//  GitRevision.swift</span>
 <span class="s">//</span>
@@ -167,9 +311,8 @@ cat <span class="s">&lt;&lt;SWIFT</span>
 
 <div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/bfc1144d89275e980c1a6b6ad29985a4">generate-git-revision.sh</a></div>
 <p>Next, in Xcode add a new <em>Run Script</em> build phase at the top of the list of Build Phases (directly under <em>Dependencies</em>). Call the new build phase <em>Generate GitRevision.swift</em>. Make the body of the build phase script:</p>
-<div class="highlight"><pre><span></span><code><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_DIR</span><span class="si">}</span><span class="s2">/path/to/generate-git-revision.sh&quot;</span> &gt; <span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_DIR</span><span class="si">}</span><span class="s2">/path/to/GitRevision.swift&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_DIR</span><span class="si">}</span><span class="s2">/path/to/generate-git-revision.sh&quot;</span><span class="w"> </span>&gt;<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PROJECT_DIR</span><span class="si">}</span><span class="s2">/path/to/GitRevision.swift&quot;</span>
 </code></pre></div>
-
 
 <p>Build the project. This causes the script to run and generate <code>GitRevision.swift</code>.</p>
 <p>Now, add the new <code>GitRevision.swift</code> file to the project. Also add <code>GitRevision.swift</code> to the project's <code>.gitignore</code> file.</p>
@@ -204,7 +347,6 @@ cat <span class="s">&lt;&lt;SWIFT</span>
 <span class="p">}</span>
 </code></pre></div>
 
-
 <p>If you leave that file open in Xcode when you build, you can see the property values change as the file gets regenerated.</p>
 <p>You can now reference <code>GitRevision.description</code> from your app's code to show the commit, branch, and build time.</p>
 </div>
@@ -219,8 +361,9 @@ cat <span class="s">&lt;&lt;SWIFT</span>
 <a href="../archives.html">Archives</a> |
 <a href="../tags.html">Tags</a> |
 <a href="../pages/about.html">About</a> |
-<a href="https://github.com/pwc3/">Github</a>          <br/><br/>
-          &copy; 2012-2020 Paul Calnan. All rights reserved.
+<a href="https://github.com/pwc3/">Github</a> |
+<a href="https://mastodon.social/@pwc3">Mastodon</a>          <br/><br/>
+          &copy; 2012-2023 Paul Calnan. All rights reserved.
         </center>
       </div>
     </div>

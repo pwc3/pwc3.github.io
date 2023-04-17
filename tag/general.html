@@ -28,7 +28,8 @@
 <a href="../archives.html">Archives</a> |
 <a href="../tags.html">Tags</a> |
 <a href="../pages/about.html">About</a> |
-<a href="https://github.com/pwc3/">Github</a>            </td>
+<a href="https://github.com/pwc3/">Github</a> |
+<a href="https://mastodon.social/@pwc3">Mastodon</a>            </td>
           </tr>
         </table>
       </div>
@@ -44,19 +45,19 @@
 
 <div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
 
-<span class="nb">set</span> -euo pipefail
+<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
 
-<span class="nb">echo</span> <span class="s2">&quot;Exiting Xcode&quot;</span>
-osascript -e <span class="s1">&#39;quit app &quot;Xcode&quot;&#39;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Exiting Xcode&quot;</span>
+osascript<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;quit app &quot;Xcode&quot;&#39;</span>
 
-<span class="nb">echo</span> <span class="s2">&quot;Deleting DerivedData&quot;</span>
-rm -rf ~/Library/Developer/Xcode/DerivedData/*
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting DerivedData&quot;</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>~/Library/Developer/Xcode/DerivedData/*
 
-<span class="nb">echo</span> <span class="s2">&quot;Deleting llvm module cache&quot;</span>
-rm -rf <span class="s2">&quot;</span><span class="k">$(</span>getconf DARWIN_USER_CACHE_DIR<span class="k">)</span><span class="s2">/org.llvm.clang/ModuleCache&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Deleting llvm module cache&quot;</span>
+rm<span class="w"> </span>-rf<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>getconf<span class="w"> </span>DARWIN_USER_CACHE_DIR<span class="k">)</span><span class="s2">/org.llvm.clang/ModuleCache&quot;</span>
 
-<span class="nb">echo</span> <span class="s2">&quot;Relaunching Xcode&quot;</span>
-open -a Xcode
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Relaunching Xcode&quot;</span>
+open<span class="w"> </span>-a<span class="w"> </span>Xcode
 </pre></div>
 
 <div class="gist-footer">Source: <a class="gist-link" href="https://gist.github.com/6648ef8437d6fe34730ba4841a3d17e1">unfuck-xcode</a></div>
@@ -80,8 +81,9 @@ open -a Xcode
 <a href="../archives.html">Archives</a> |
 <a href="../tags.html">Tags</a> |
 <a href="../pages/about.html">About</a> |
-<a href="https://github.com/pwc3/">Github</a>          <br/><br/>
-          &copy; 2012-2020 Paul Calnan. All rights reserved.
+<a href="https://github.com/pwc3/">Github</a> |
+<a href="https://mastodon.social/@pwc3">Mastodon</a>          <br/><br/>
+          &copy; 2012-2023 Paul Calnan. All rights reserved.
         </center>
       </div>
     </div>
