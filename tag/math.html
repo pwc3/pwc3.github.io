@@ -56,9 +56,21 @@ max(x, y) = \frac{x + y + |y - x|}{2}
 
 <p>I never thought of coming up with a non-procedural formula for either of these.</p>
 <p>We can prove that \(min(x, y) = \frac{x + y - |y - x|}{2}\) and \(max(x, y) = \frac{x + y + |y - x|}{2}\) as follows:</p>
-<p>If \(x \leq y\), then \(|y - x| = y - x\).
-So \(x + y - |y - x| = x + y - y + x = 2x = 2 \cdot min(x, y)\),
-and \(x + y + |y - x| = x + y + y - x = 2y = 2 \cdot max(x, y)\).</p>
+<p>\[
+x \leq y \implies |y - x| = y - x
+\]</p>
+<p>\[
+x + y - |y - x| = x + y - y + x = 2x = 2 \cdot min(x,y)
+\]</p>
+<p>\[
+x + y + |y - x| = x + y + y - x = 2y = 2 \cdot max(x, y)
+\]</p>
+<!--
+If \\(x \leq y\\), then \\(|y - x| = y - x\\).
+So \\(x + y - |y - x| = x + y - y + x = 2x = 2 \cdot min(x, y)\\),
+and \\(x + y + |y - x| = x + y + y - x = 2y = 2 \cdot max(x, y)\\).
+-->
+
 <p>In both cases, swap \(x\) and \(y\) to prove the formulas for \(x \geq y\).</p>
 </div>
 <div class="post">

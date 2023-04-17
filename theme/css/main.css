@@ -146,3 +146,9 @@ div.gist-footer {
   font-weight: bold;
   background-color: #eef0f2;
 }
+
+mjx-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 99%;
+}
